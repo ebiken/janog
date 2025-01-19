@@ -1,0 +1,95 @@
+= 既存のAI/HPC関連ネットワーク技術
+:toc:
+ifndef::imagesdir[:imagesdir: ../images]
+include::footnotes-hpc.adoc[]
+
+既存のAI/HPC関連ネットワーク技術は、大きく分類するとロスレスイーサネット、輻輳制御、ロードバランシング、の3つを実現する技術から構成されます。
+これらの既存技術に関してはJANOGなどで解説されていますので、UECの技術を理解するための前提知識として "参考文献" に記載した資料を一読しておくと良いでしょう。
+
+ロードバランシング技術は様々な技術がありますが、ベンダを問わずサポートされているのはDLBです。
+
+.既存のAI/HPC関連ネットワーク技術
+[cols="2,3",id="ai_hpc_tech_summary"]
+|===
+| 機能 | 代表的な技術
+
+| ロスレスイーサネット（Lossless Ethernet）
+a| * PFC (802.1Qbb, Priority Flow Control)
+
+| 輻輳制御（Congestion Control）
+a| * DCQCN (ECN, Sender-driven)
+
+| ロードバランシング（Load Balancing, Fabric utilization)
+a| * Dynamic Load Balancing (flowlet)
+* NVIDIA Adaptive Routing (flowlet?)
+* Packet Spray (Packet based)
+* Scheduled Fabric (VoQ) (Cell based)
+
+|===
+
+== 参考文献
+
+=== 過去のJANOGセッション
+
+* JANOG54 生成AI向けパブリッククラウドサービスをつくってみた話
+ ** https://www.janog.gr.jp/meeting/janog54/sakura/
+ ** 井上 喬視, 高峯 誠, 平田 大祐 さくらインターネット株式会社
+* JANOG54 ネットワークオペレーションにおける生成AI技術の活用検討について
+ ** https://www.janog.gr.jp/meeting/janog54/genai/
+ ** 佐藤 亮介, 白井 嵩士, 田口 順史, 近藤 優吉 株式会社NTTフィールドテクノ
+ ** 宮坂 拓也, 株式会社KDDI総合研究所
+ ** 仲松 匠, KDDI株式会社
+ ** AI/MLネットワークではなくAIをネットワーク運用に活用する内容。GPTの概要を解説している。
+* JANOG53 AI(人工知能)の為のネットワーク
+ ** https://www.janog.gr.jp/meeting/janog53/ainw/
+ ** 土屋 師子生, アリスタネットワークスジャパン合同会社
+* JANOG52 AI/ML基盤の400G DCネットワークを構築した話
+ ** https://www.janog.gr.jp/meeting/janog52/aiml400/
+ ** 内田 泰広, 小障子 尚太朗, 株式会社サイバーエージェント
+* JANOG50+ パケットロスと遅延
+ ** https://www.janog.gr.jp/meeting/janog50plus/docs/janog50plus-maz-losslatency.pdf
+ ** 松崎 吉伸(株式会社インターネットイニシアティブ)
+* JANOG43 LINEのネットワークをゼロから設計した話
+ ** https://www.janog.gr.jp/meeting/janog43/application/files/7915/4823/1858/janog43-line-kobayashi.pdf
+ ** Masayuki Kobayashi, LINE Corporation
+
+=== AI/HPCネットワーク関連（日本語）
+
+* GPUクラスタネットワークとその設計思想（Rethinking AI Infrastructure Part 2）
+ ** https://techblog.lycorp.co.jp/ja/20250115a
+ ** LINEヤフー株式会社 小林、深澤
+* "GPUネットワーク設計・運用 基礎勉強会 Lossless Ethernet - PFC/ECN編"
+ ** https://speakerdeck.com/markunet/ecnbian
+ ** LINEヤフー株式会社 小林正幸
+* AI時代のデータセンターネットワーク
+ ** https://speakerdeck.com/lycorptech_jp/dcnw_in_the_ai_era
+ ** 第40回 情報ネットワーク・ネットワークシステム研究ワークショップ
+ ** LINEヤフー株式会社 小林正幸
+* EthernetベースのGPUクラスタ導入による学びと展望
+ ** https://speakerdeck.com/lycorptech_jp/20241202
+ ** NVIDIA AI Summit Japan 2024
+ ** LINEヤフー株式会社 小林正幸、道下幹也
+* Podcast: fukabori.fm "124. AI時代のGPUクラスタ、DCネットワーク"
+ ** https://fukabori.fm/episode/124
+ ** LINEヤフー株式会社 小林正幸、道下幹也
+* PFNにおけるアクセラレータ間通信の実際 / MPLS Japan 2024
+ ** https://speakerdeck.com/pfn/mpls-japan-2024
+ ** Yuichiro Ueno / Preferred Networks, Inc.
+* "イーサネットが高信頼ネットに進化する, [3] 中核はフロー制御をつかさどる「PFC」と「ETS」"
+ ** https://xtech.nikkei.com/it/article/COLUMN/20091006/338383/
+ ** 2009-10-15 日経クロステック
+
+=== AI/ML関連：その他（日本語）
+
+* Distributed Cache Empowers AI/ML Workloads on Kubernetes Cluster / KubeCon + CloudNativeCon North America 2024
+ ** https://speakerdeck.com/pfn/kubecon-plus-cloudnativecon-north-america-2024
+* 生成AI向け機械学習クラスタ 構築のレシピ - 北海道石狩編
+ ** https://speakerdeck.com/pfn/20240615-cloudnativedayssummer-pfn
+ ** Cloud Native Days Summer 2024
+* 実際に運用してわかった！多種GPU混載Kubernetesクラスタの使われ方と運用省力化
+ ** https://speakerdeck.com/pfn/cloudnativedaystokyo23-shiota
+ ** Tetsuya Shiota 株式会社PreferredNetworks
+ ** CNDT2023: CloudNative Days Tokyo 2023
+* （2023年末） LLMの現在 - 今のLLMを取り巻く状況について紹介します。
+ ** https://speakerdeck.com/pfn/llmnoxian-zai
+ ** Preferred Networks, いもす (imos@preferred.jp)

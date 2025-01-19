@@ -1,0 +1,376 @@
+= UEC概要
+:toc:
+ifndef::imagesdir[:imagesdir: ../images]
+include::footnotes-uec.adoc[]
+
+== 設立趣旨
+
+Ultra Ethernet Consolrtium (UEC) は、AIやHPCの要求に応える高性能なイーサネット通信を実現するために設立された業界団体です。
+
+https://www.top500.org[top500.org] の TOP500 LIST - NOVEMBER 2004 {top500_2024_nov} にランキングされているHPCシステムでもGPUが利用されているなど、今後AIとHPCのワークロードおよびネットワーク要件が重複していくことが予想されています。
+そのため、UECではAIに限定せず、AIとHPCワークロード（RoCEv2）両方の課題を解決するプロトコルや技術の "オープンスタンダード" を "マルチベンダ" で開発することを目的としています。
+
+UECは、2023年に AMD, Arista, Broadcom, Cisco, Eviden (an Atos Business), HPE, Intel, Meta, Microsoft により設立され {uec_press_20230719} 、2024年12月 現在では、合計90社のメンバー企業で構成されています。
+
+NVIDIAによるアプリケーション、アクセラレータ（GPU）、ネットワークの垂直統合による独占に対抗するために設立されたと言われることもありますが、2024年からNVIDIAもメンバー企業として活動に参加しています。
+
+UECは Linux Foundation 傘下の JDF (Joint Development Foundation)  {linuxfoundation_jdf} の一部として組織されています。
+JDFは、企業や団体が共同で技術標準やオープンソースプロジェクトを迅速に立ち上げるための法的および運営的な基盤を提供する団体で、共同開発を効率的に推進するための仕組みを提供しています。
+
+== メンバー企業のタイプ
+
+メンバー企業や組織は
+Steering Members, General Members, Contributor Members
+の3種類に分類されます。
+新規加入企業が選択できるのは General と Contributor のいずれかです。
+
+2025年1月1日現在、10社の Steering Members、 26社の General Members、54社の Contributor Members、合計90社のメンバー企業で構成されています。
+
+Steering Members::
+メンバーは AMD, Arista, Broadcom, Cisco, Eviden, HPE, Intel, Meta, Microsoft, Oracle
+であり、共同設立企業 + Oracleで構成されています。
+
+General Members::
+General Members はTACへの参加が可能で、新しいワーキンググループの立ち上げやワークアイテムの作成など、UECの活動内容について影響を与えることが可能です。
+また、過半数よりも多い（2/3や3/4など）賛成が必要な議題への投票（Supermajority）権利も持ちます。
+
+Contributor Members::
+Contributor Members は General Members と異なり新しい活動の提案はできませんが、アクセス可能な情報や技術貢献も可能で、Supermajorityを除く投票にも参加する権利を持ちます。
+そのため、通常は General Members と変わらない活動が可能です。
+
+日本企業も数社メンバー企業として参加しています。
+
+UECメンバーの日本企業::
+* General Member: Preferred Networks
+* Contributor Member: Fujitsu, IIJ
+
+メンバー企業の一覧は、UEC Webサイトのトップページ https://ultraethernet.org/ {uec_web} で参照可能です。
+
+== 組織と運営方法
+
+UECは以下のような組織から構成されます。
+技術的には、各 Working Groups の活動状況や、その結果として広報されるホワイトペーパーやBLOG、仕様書などを参照すると良いでしょう。
+（仕様策定プロセスの詳細は、内部情報のため省略しています）
+
+Steering Committee (SC)::
+組織運営を統括し、UEC全体の方向性を決定します。
+
+Marketing Committee::
+外部とのコミュニケーションに責任を持ち、イベントなどのコーディネートを行います。
+
+Technical Advisory Committee (TAC)::
+SCの元で、UECの技術活動の範囲や優先順位を定め、監督します。
+また、ハイレベルな技術ロードマップや、ユースケースのスコープや技術目標を定めます。
+各 Working Group が提案する技術仕様を承認し、UECの仕様全体の整合性を保ちます。
+TACに参加するには General Members の会員タイプである事が必要です。
+
+Working Groups::
+技術分野毎に設立され、UEC技術仕様のうち、担当する技術分野の仕様検討や仕様書を作成します。
+
+=== Working Groups
+
+2024年12月 現在の Working Group と活動内容は以下の通りです。 {uec_web_wg}
+
+.UEC Working Group と活動内容 （2024年12月 現在）
+[cols="1,4"]
+|===
+| Working Group | 活動内容
+
+|Physical Layer (PH)
+| 物理レイヤーでの、遅延の低減、管理改善、などに取り組んでいます。
+イーサネット物理層、電気および光信号特性、APIやデータ構造の仕様策定を行います。
+
+|Link Layer (LL)
+| リンクレイヤーでの、遅延の低減、管理改善、などに取り組んでいます。
+イーサネットの効率、セキュリティ、スケーラビリティを最適化する仕様策定を行います。
+
+|Transport Layer (TR)
+| エンドツーエンドのデータ配信に不可欠な、トランスポートレイヤーでのスループットの向上、遅延の低減、スケーラビリティの向上、管理の改善を実現するトランスポートの仕様策定を行います。
+UEC技術の中核となる Ultra Ethernet Transport (UET) の仕様策定を行っています。
+
+|Software Layer (SL)
+| AI/HPCの幅広いユースケースとアプリケーションをサポートするため、ソフトウェアAPIを含む技術仕様の策定や、オープンソース実装の開発を行います。
+技術分野としては、リモートメモリアクセスの最適化、INC（In Network Collective）の実現、セキュリティ、管理改善、ストレージを含みます。
+
+|Storage Working Group (ST)
+| UECベースのAI/HPCワークロードで利用可能なストレージサービスを、他 Working Groups と協力しながら取り組みます。
+新たな仕様策定だけでなく、既存ストレージ管理のベストプラクティスの取り込みを含みます。
+
+|Compliance Working Group (CT)
+| サービスとデバイスがUECの定義した技術に適合していることを確認することに取り組みます。
+UEC実装を評価するためのテストを作成し、UEC標準への厳格な準拠を保証します。
+また、UECが定義したAI/HPCプロファイルに従って、UEC準拠のネットワークデバイス（NIC、PCIe NIC、スイッチなど）間の相互運用性目標を定義します。
+
+|Management Working Group (MG)
+| UEC Fabricの管理性を強化するための仕様策定を行います。
+UEC準拠の Transport Fabric End Point (FEP) のモデル、管理エレメント、RPC (Remote Procedure Call) などを定義します。
+トポロジー・ディスカバリー、ケイパビリティ・ディスカバリー、モニタリング、インターオペラビリティ・クエリーなども含みます。
+
+|Performance and Debug Working Group (PD)
+| 進化するUECの仕様に合わせ、AI/HPCワークロードの性能指標、ベンチマーク、デバッグ機能、ツールを定義します。
+また、UEC準拠の実装における可視性とデバッグ可能性を強化することで、開発者、DevOps、ネットワーク運用チームを支援します。
+
+|===
+
+
+=== 普段の活動
+
+普段の活動は各 Working Group 毎に仕様検討や仕様書を作成し、定期的にTACがレビュー承認することで全体の整合性を保ちながら仕様策定を進めています。
+
+普段の議論はメーリングリストとオンライン会議など、オンラインで技術検討や仕様策定は進んでいくためリモートでの参加が可能です。
+但し、オンライン会議は日本時間では深夜早朝にあたる北米の日中に行われています。
+
+Working Group よっては、年数度のオフライン会議で集中的に課題を議論する場合もあります。
+また、2025年はメンバー会合が開催される予定です。
+
+2025年前半に最初の仕様が公開された後は活動頻度や形態も変わっていく可能性がありますので、メンバーとして加入を検討する際には最新の活動状況を確認すると良いでしょう。
+
+
+== UECの活動を知る方法
+ 
+メンバー企業に所属していない人でも、以下方法でUECの活動を知ることが可能です。
+
+* カンファレンス
+ ** カンファレンスのセッションを聴講することで、活動状況や技術に関する最も詳細な情報に触れることが可能です。
+ ** また、展示がある場合は展示会場でUECメンバーと会話することが可能です。
+ ** 詳細は、表 <<uec-conference-link>> を参照してください。
+* Webサイト： https://ultraethernet.org/
+ ** Webサイトには、UECの組織構成、メンバー企業の一覧、Working Groups、などの情報が記載されています。
+ ** UEC設立のモチベーションと、策定中の仕様（概要）が記載されたホワイトペーパー {uec_whitepaper} をダウンロード可能です。
+ ** Blog: Latest News {uec_blog} には最新情報が掲載されますので、定期的にチェックすると良いでしょう。
+* メンバー企業のプレスリリースやWebサイト
+ ** メンバー企業がUECでの活動について発信する場合があります。
+ ** 特にUECに対応した製品の最新情報については、各メンバー企業からの発信される情報を参照すると良いでしょう。
+* LinkedIn: https://www.linkedin.com/company/ultraethernet/posts/
+ ** LinkedInのUECアカウントのポストを追うことで、UECが参加するカンファレンスや発信した情報を知ることが可能です。
+ ** また、メンバー企業や他組織の投稿をリポストする場合もあります。全てのメンバー企業の情報をチェックするのは大変ですので、まずはUECの LinkedIn アカウントをフォローするのも良い方法です。
+
+=== UEC BLOG
+
+UECの活動や技術内容を理解するために参考になりそうなBLOG記事を抜粋しました。
+
+* March 18, 2024: UEC Progresses Towards v1.0 Set of Specifications
+ ** https://ultraethernet.org/uec-progresses-towards-v1-0-set-of-specifications/
+* August 29, 2024: Ultra Ethernet Specification Update
+ ** https://ultraethernet.org/ultra-ethernet-specification-update/
+* November 14, 2024, Interview of UEC Chair, J Metz (By Next Platform, but also on UEC blog)
+ ** The Collaboration That Will Drive Ethernet Into The HPC And AI Future
+ ** Part#1: https://www.nextplatform.com/2024/11/12/the-collaboration-that-will-drive-ethernet-into-the-hpc-and-ai-future/
+ ** Part#2: https://www.nextplatform.com/2024/11/14/uec-doesnt-want-to-kill-infiniband-but-it-wants-ethernet-to-beat-it/
+
+=== UECが参加したカンファレンスの一覧（スライドやビデオのアーカイブ）
+
+.UECが参加したカンファレンスの一覧（スライドやビデオのアーカイブ）
+[cols="1,3", id="uec-conference-link"]
+|===
+| カンファレンス | リンク
+
+|OCP2024 (Open Compute Project)
+a| https://www.opencompute.org/events/past-events/2024-ocp-global-summit
+
+* Leveraging UEC for Next Generation AI Networks (video 37min)
+ ** Presented by UEC: Uri Elzur, Intel (Architect, Computer Networks, GPU Networks)
+* Overview of Ultra Ethernet (video 15min)
+ ** Presented by UEC, J Metz, AMD (Chair Steering Committee, UEC)
+* Accelerating AI/HPC: OCP and UEC's Collaborative Vision for High-Performance Networking (video 22min, slides)
+ ** J Metz, AMD (Chair Steering Committee, UEC)
+ ** Uri Elzur, Intel (Architect, Computer Networks, GPU Networks)
+* Future of AI Networks: UAI and Ultra Ethernet (video 26min, slides)
+ ** J Metz, AMD (Chair Steering Committee, UEC)
+ ** Kurtis Bowman (AMD, Director, Architecture and Strategy)
+
+|SC24 (Super Computing)
+a| https://sc24.supercomputing.org/program/proceedings-archives/
+
+注：アーカイブへのアクセスは有料の登録者のみ
+
+* Industry Standards Working Together to Accelerate Innovation in AI and HPC
+ ** https://sc24.supercomputing.org/proceedings/panel/panel_pages/pan114.html
+
+|NANOG 92 (2024年10月)
+a| https://nanog.org/events/nanog-92/
+
+* Keynote: Networking for AI and HPC, and Ultra Ethernet
+ ** Hugh Holbrook, Arisa Networks (VP Software Engineering)
+ ** Video: https://youtu.be/0roIi1pscts?si=XmZAjfBFM3CibWBb
+ ** Slide: https://storage.googleapis.com/site-media-prod/meetings/NANOG92/5182/20241021_Holbrook_Keynote_Networking_For_v1.pdf[20241021_Holbrook_Keynote_Networking_For_v1.pdf]
+
+|HOTI31 （2024年） (Hot Interconnects)
+a| https://ieeexplore.ieee.org/xpl/conhome/10664198/proceeding
+
+* Day 2: Invited Talk: Ultra Ethernet Consortium (UEC) overview
+ ** Uri Elzur, Intel
+ ** Video: https://www.youtube.com/watch?v=LtifmYChRTo
+
+|===
+
+== UEC関連団体
+
+UECはLinux Foundation以外にも、以下の団体と連携をとりながら仕様策定を進めています。
+連携の密度は団体毎に濃淡がありますが、UECの技術を深く理解したい場合には、これら団体の動向や技術も参考にすると良いでしょう。
+
+Open Compute Project (OCP)::
+OCPはコンピュート・インフラへの要求を効率的にサポート可能なハードウェアの仕様や設計のオープンソース化を進める非営利団体です。
+2011年にFacebook(元Meta)が自社設計のデータセンター機器の設計仕様書を公開したことに始まります。
+公開された仕様書を元にハードウェアベンダが機器を提供可能にしたことにより、コスト削減と調達のしやすさが向上しました。
+サーバーやストレージ、ネットワークなどの製品分野ごとにプロジェクトが存在し、参加企業による新規開発や設計仕様書の公開が進んでいます。
+ネットワークの分野の例としては、ホワイトボックススイッチやそれを制御するスイッチOS（SONiC等）の開発が行われています。
+（SONiCは2022年にLinux Foundationに移籍しました）
+年1回の OCP Global Summit を始め、OCPのカンファレンスでは多くのUEC関連セッションが開催され、UECの動向理解の参考になります。
+* OCPホームページ： https://www.opencompute.org/
+* OCP Global Summit (スライドや動画アーカイブ): https://www.opencompute.org/summit/global-summit
+
+OpenFabrics Alliance (OFA)::
+The OpenFabrics Alliance (OFA) は、高性能ネットワーキング技術を推進する業界団体です。主にデータセンター、ハイパフォーマンスコンピューティング（HPC）、クラウドインフラストラクチャ向けに、RDMA (Remote Direct Memory Access) やInfiniBand、iWARP、RoCE などのネットワーキング技術の普及を支援しています。
+また、オープンソースソフトウェア（OFED: OpenFabrics Enterprise Distribution）を提供しています。
+OpenFabrics Interfaces Working Group では、Open Fabrics Interfaces (OFI) とも呼ばれる `libfabric` {ofi_libfabric} ライブラリを開発しています。
+* OFAホームページ： https://www.openfabrics.org/
+
+ULTRA ACCELERATOR LINK (UALink)::
+Ultra Accelerator Link™ (UALink™) は、アクセラレーター間を接続するオープンな業界標準の内部インターコネクトです。
+2024年の時点では、UECはイーサネットを外部インターコネクトとして利用したスケールアウト技術を策定しており、スケールアップに必要な内部インターコネクト技術はUALinkなど、UECではなく、他団体の技術を活用する前提となっています。
+* UALink Consortiumホームページ： https://www.ualinkconsortium.org/
+
+Storage Networking Industry Association (SNIA)::
+SNIAは、ストレージを中心とした情報管理に関連する技術標準を開発や教育プログラムを提供する業界団体です。
+UEC Storage Working Groupが存在するように、UECの技術はストレージにも活用されることを想定し、技術策定を進めています。
+* SNIAホームページ： https://www.snia.org/
+* SNIA日本支部： https://www.snia-j.org/
+
+IEEE::
+IEEE（アイ・トリプル・イー）にはイーサネットに関連する技術を扱うワーキンググループが存在します。
+例えば IEEE 802.3 は、有線イーサネットの物理層とデータリンク層のメディアアクセス制御（MAC）を定義するワーキンググループです。
+また、IEEE 802.1 では、UECで拡張が検討されている LLDP (IEEE 802.1AB) の標準を策定しています。
+* IEEEホームページ： https://www.ieee.org/
+
+
+== UEC取り組みの背景
+
+本セクションでは、UECホワイトペーパー {uec_whitepaper} の内容を元にUECの目的や取り組んでいる技術について紹介します。
+
+=== "UEC取り組みの背景" に含まれる情報について
+
+"UEC取り組みの背景" で紹介している内容は、2023年にUECから発表された "UECホワイトペーパー" {uec_whitepaper} を元に執筆しています。
+また、その他の内容も、UECホームページやカンファレンスでの発表資料など、公開情報を元にまとめています。
+
+UECでは2025年Q1のリリースに向けて仕様策定が進められており、様々な議論が行われている状況です。
+そのため、仕様がリリースされるまでの間に、記載の内容から変更がある可能性があります。
+UEC技術の利用検討の際には、UEC技術仕様を含め最新の情報に当たるようにしてください。
+
+=== イーサネットのアドバンテージ
+
+イーサネットのアドバンテージとして、以下のような項目が挙げられています。
+
+|===
+a|* 複数のベンダーが参加するエコシステムにより、互換性のあるイーサネットスイッチ、NIC、ケーブル、トランシーバー、光学デバイス、管理ツール、ソフトウェアが広く提供されている。
+* IPネットワーク（ルーティング）の拡張性が実証されており、ラック規模、建物規模、データセンター規模のネットワークを実現可能。
+* イーサネットネットワークをテスト、測定、展開、効率的に運用するための幅広いツールが存在する。
+* 競争のあるエコシステムと規模の経済により、コスト削減が実現されてきた実績がある。
+* IEEEイーサネット標準が、多くの物理層および光学層において迅速かつ定期的に進化を遂げる能力が実証されている。
+|===
+
+このようなイーサネットのアドバンテージを活用し、
+
+* スループットの最大化
+* Tail Latency の最小化
+
+といった目標を達成するために必要なネットワークの要件として以下を挙げ、実現する技術を策定しています。
+
+|===
+a|* マルチパスとパケットスプレー
+* Flexible Ordering （柔軟な配信順序）
+* AIやHPCに最適化された輻輳制御メカニズム
+* エンドツーエンドのテレメトリ
+* 大規模化、安定性、信頼性
+|===
+
+=== マルチパスとパケットスプレー
+
+従来のイーサネットネットワークでは、スパニングツリープロトコルにより1つの経路しか利用できない状況が続いてました。
+その後、データセンターファブリックでは、ノード（スイッチ）間を Layer 3 (IP) で接続する事により、Equal-Cost Multipath (ECMP) のような技術を利用し複数のパスを利用できるようになりました。
+ECMPは通常ハッシュを用いてトラフィックの振り分けをするため、トラフィックの偏りが生じるデメリットがあります。
+また、パケットのリオーダーを防ぐために、同じフロー（Layer 4: TCP,UDP セッション）のトラフィックは同じパスを通す必要があります。
+そのため、フロー数が少ないとハッシュ計算の元となるヘッダ情報が同じトラフィックが増える事により、偏りが顕著になります。
+
+近年では Dynamic Load Balancing (DLB) のように各ポートの使用率などから動的に利用するパスの振り分けを行う機能もありますが、ノードが多段になった場合、ネットワーク全体で最も負荷の低いパスを確実に選択する事は困難です。
+
+そのため、UECでは全てのパスにパケットを分散させる "packet spraying" （パケットスプレー）という技術を採用しています。
+パケットスプレーの難点はパケットのリオーダーが発生する事ですが、これにはトランスポート層（UET）で対応しています。
+
+=== Flexible Ordering （柔軟な配信順序）
+
+RoCEv2など、従来の技術ではパケットが送信された順に受信する必要があります。
+具体的には、パケットのリオーダーやパケットロスによりアウトオブオーダーパケットが発生すると、Go-Back-N により順序通り届かなかったパケット以降の全てのパケットを再送する必要があります。
+これにより、利用可能なスイッチ間リンクの利用率低下やテールレイテンシの増加が発生し、ジョブ完了までにより多くの時間が必要となります。
+
+しかし、理想的にはすべてのリンクが使用され、AIのワークロードがそれを必要とする場合にのみ順序が強制されるべきです。
+
+AIワークロードにおける集団通信の操作は、 All-Reduce や All-to-All が多くを占めます。
+これらの操作完了を早くする鍵は高速なバルク通信（データ転送）であり、AIアプリケーションにとって "メッセージの全てのデータが届いたか？" が重要であり、データの到着順序は重要ではありません。
+
+Flexible Ordering は、パケット到着順序の制約を緩和する事で、データ転送を効率化します。
+例えば、パケットスプレーを行った時に発生するアウトオブオーダーパケットの理オーダリングが不要になります。
+
+=== AIやHPCに最適化された輻輳制御メカニズム
+
+輻輳が発生する場所は、以下3か所に分類できます。
+
+1. 送信元サーバーとスイッチ間のリンク
+2. スイッチファブリックの内部（送信元と送信先サーバーが接続されているスイッチ間の経路）
+3. 送信先サーバーとスイッチ間のリンク（Incast）
+
+.輻輳発生場所の分類
+image::uec_congestion_point.png[Congestion Point,id="uec_congestion_point_png"]
+
+"1. 送信元サーバーとスイッチ間のリンク" の輻輳は、送信元サーバーが全ての送信トラフィックを把握可能なため、制御が可能です。
+
+"2. スイッチファブリックの内部" の輻輳はマルチパスとパケットスプレーにより最小化されます。
+
+"3. 送信先サーバーとスイッチ間のリンク（Incast）" は All-to-All 操作など、複数の送信元から同じ送信先にデータ転送される際に発生します。
+この Incast による輻輳制御のために DCQCN 等のアルゴリズムが用いられてきましたが十分ではなく、以下のような要件を満たす輻輳制御メカニズムが必要と考えられます。
+
+転送レートの立ち上がりの速さ::
+広帯域かつ低遅延のネットワークで、既存のトラフィックのパフォーマンスを低下させることなく、転送開始時に速やかにワイヤ・レートまで送信速度を上げること。
+
+最終リンクの公平な共有::
+パケットロスや再送信、テールレイテンシの増加を招くことなく、最終リンクを公平に共有することで Incast を制御可能なこと。
+
+設定やチューニングの最小化::
+トラフィックミックスの変化、コンピュートノードの進化、リンク速度の向上、ハードウェアの進化に応じて、（DCQCNでは必要であった）チューニングや設定を必要としない（最小化する）こと。
+
+UECでは、これらの要件をサポートし、マルチパスやパケットスプレーと連動するような将来のAIワークロードのための輻輳制御アルゴリズム（UET）を設計しています。
+
+注::
+将来的には、マルチテナンシーサービスを実現するために、送信元サーバーの仮想化やネットワークのパーティションが必要になった場合など、輻輳発生場所が変わってくる可能性があります。
+
+=== エンドツーエンドのテレメトリ
+
+輻輳制御アルゴリズムの最適化は、エンドツーエンドのテレメトリによって実現されます。
+送信元もしくは送信先が転送スケジュールを管理する際に、ネットワークノード（スイッチ）からパケット送信スケジューラーやペーサーへの輻輳通知を迅速に行うことにより、輻輳制御アルゴリズムの反応性や正確性が向上します。
+
+これにより、輻輳が緩和され、パケットの取りこぼしが減り、キューが小さくなるなど、テールレイテンシの改善が可能になります。
+
+=== 大規模化、安定性、信頼性
+
+UECでは、100万のエンドポイントまで対応可能なスケーラビリティを目標としています。
+
+=== ロスレスファブリックの課題
+
+ロスレスイーサネットを前提としたRoCEは広くデプロイされてきましたが、最大限の性能を引き出すためには専門家によるチューニングや運用監視が必要であり、総所有コスト（TCO）の削減が困難です。
+
+また、ロスレス実現のためPFCを用いたパケット転送の一時停止には、以下のような課題があります。
+
+HOLブロッキング（Head-Of-Line Blocking）::
+* HOLブロッキングとは、キュー内の先頭パケットが転送されるポートが輻輳している場合、他のパケットが転送可能であってもキュー全体がブロックされる現象です。
+* PFCは特定の優先度のトラフィックを一時停止させるため、これがキュー内での先頭データの滞留を引き起こし、後続のトラフィックもブロックされます。
+* これにより、スループットの低下、遅延の増加、といった影響があります。
+
+輻輳伝播（congestion spreading）::
+* あるリンクで輻輳（例: バッファが満杯になる）が発生すると、そのリンクはデータを受信できなくなり、上流デバイスに PAUSE フレームを送信します。
+* その結果、上流デバイスも同様に輻輳が生じ、さらにその上流に PAUSE フレームを送信します。
+* このように輻輳の伝播が発生し、輻輳の影響が最初に発生した一部のリンクに留まらず、ネットワーク全体に波及することがあります。
+
+デッドロックの発生::
+* 複数のデバイスが互いに PAUSE フレームを送り合う状況に陥ると、ネットワーク全体が停止する "デッドロック" が発生することがあります。
+
+UECは、これらのパケットロスの防止やリカバリ、輻輳制御といった課題はトランスポート層で解決されるべきと考え、RoCEv2を置き換える UET (Ultra Ethernet Transport) 、UETと協調して利用されるネットワーク層の技術、イーサネットの拡張技術（リンク層）、In Network Collectives (INC)、等の開発を進めています。

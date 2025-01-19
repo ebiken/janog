@@ -1,0 +1,19 @@
+= AIインフラ解説資料（AI/HPC & UEC技術概要）
+:toc:
+:toclevels: 3
+:imagesdir: images
+
+// AIインフラ解説資料の読み進め方
+include::README.adoc[tag=howto]
+
+// 既存のAI/HPC関連ネットワーク技術（RoCEv2, Lossless Ethernet, DLB, Adaptive Routing, etc.）
+include::hpc/hpc-network-current.adoc[leveloffset=+1]
+
+// UEC概要
+include::uec/uec-overview.adoc[leveloffset=+1]
+
+// UEC Technology Overview
+include::uec/uec-tech-overview.adoc[leveloffset=+1]
+
+// UECを利用するための検討ポイント
+include::uec/uec-using.adoc[leveloffset=+1]

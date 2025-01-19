@@ -1,0 +1,32 @@
+// footnotes をここに集約し、各文書から include することで重複を避ける。
+
+:uec_press_20230719: footnote:[https://ultraethernet.org/leading-cloud-service-semiconductor-and-system-providers-unite-to-form-ultra-ethernet-consortium/]
+
+:uec_web: footnote:[https://ultraethernet.org/]
+:uec_blog: footnote:[https://ultraethernet.org/blog/]
+:uec_web_wg: footnote:[https://ultraethernet.org/working-groups/]
+:uec_whitepaper: footnote:[UECホームページの "Download White Paper" をクリック]
+:uec_spec_update_20240829: footnote:[https://ultraethernet.org/ultra-ethernet-specification-update]
+
+:linuxfoundation_jdf: footnote:[https://jointdevelopment.org/]
+
+:draft_ravi_ippm_csig: footnote:[https://datatracker.ietf.org/doc/draft-ravi-ippm-csig/]
+:back_to_sender: footnote:[BTS is a sub-RTT backward congestion signaling from the switch back to the sending Network Adapter.]
+
+:top500_2024_nov: footnote:[https://www.top500.org/lists/top500/list/2024/11/]
+
+:bcm_blog_cognitive_routing_th5: footnote:[https://www.broadcom.com/blog/cognitive-routing-in-the-tomahawk-5-data-center-switch]
+
+:nanog92_keynote_uec: footnote:["Keynote: Networking for AI and HPC, and Ultra Ethernet", NANOG 92, Hugh Holbrook, Arisa Networks]
+
+:docs_nvidia_sharp: footnote:[https://docs.nvidia.com/networking/software/accelerator-software/index.html#nvidia-sharp]
+:ieeexplore_sharp: footnote:[https://ieeexplore.ieee.org/document/7830486]
+:ieeexplore_sharp_citation: footnote:[R. L. Graham et al., "Scalable Hierarchical Aggregation Protocol (SHArP): A Hardware Architecture for Efficient Data Reduction," 2016 First International Workshop on Communication Optimizations in HPC (COMHPC), Salt Lake City, UT, USA, 2016, pp. 1-10, doi: 10.1109/COMHPC.2016.006.]
+:nvidia_sharp_paper_download: footnote:[https://network.nvidia.com/pdf/solutions/hpc/paperieee_copyright.pdf]
+
+:github_sai_pr2077_packet_trimming: footnote:[https://github.com/opencomputeproject/SAI/pull/2077]
+:github_sai_packet_trimming_draft: footnote:[https://github.com/marian-pritsak/SAI/blob/master/doc/SAI-Proposal-Packet-Trimming.md]
+
+:blog_lineyahoo_20250115: footnote:[https://techblog.lycorp.co.jp/ja/20250115a]
+
+:ocp_2024_uec_uri_accel_aihpc: "Accelerating AI/HPC: OCP and UEC's Collaborative Vision for High-Performance Networking, Uri Elzur, OCP2024" footnote:[https://www.opencompute.org/events/past-events/2024-ocp-global-summit]

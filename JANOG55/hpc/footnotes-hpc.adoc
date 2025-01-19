@@ -1,0 +1,22 @@
+:jenova_ai: footnote:[https://www.jenova.ai/]
+:hpc_sheduling: footnote:[HPCの文脈では "スケジューリング" という用語が一般的と思われるが、もし他に適切な用語があれば置き換える]
+:ibta_web: footnote:[https://www.infinibandta.org/]
+:ibta_web_members: footnote:[https://www.infinibandta.org/member-listing/]
+:colossalai_concepts: footnote:[https://colossalai.org/docs/concepts/distributed_training/]
+
+
+:ofi_libfabric: footnote:[https://ofiwg.github.io/libfabric/]
+:libfabric_programmers_manual: footnote:[https://ofiwg.github.io/libfabric/v2.0.0/man/fi_provider.7.html]
+:fi_atomic_3: footnote:[https://ofiwg.github.io/libfabric/main/man/fi_atomic.3.html]
+:fi_collective_3: footnote:[https://ofiwg.github.io/libfabric/main/man/fi_collective.3.html]
+:fi_provider_7: footnote:[https://ofiwg.github.io/libfabric/main/man/fi_provider.7.html]
+:fi_arch_7: footnote:[https://ofiwg.github.io/libfabric/main/man/fi_arch.7.html]
+
+:nanog92_keynote_uec: footnote:["Keynote: Networking for AI and HPC, and Ultra Ethernet", NANOG 92, Hugh Holbrook, Arisa Networks]
+
+:aws_web_hpc_efa: footnote:[https://aws.amazon.com/hpc/efa/]
+:hpe_web_slingshot_doc: footnote:[https://www.hpe.com/psnow/doc/a50002546enw]
+
+:fujitsu-monaka-newswitch-20250102: footnote:[https://newswitch.jp/p/44191]
+
+:top500_2024_nov: footnote:[https://www.top500.org/lists/top500/list/2024/11/]

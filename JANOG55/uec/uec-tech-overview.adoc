@@ -1,0 +1,297 @@
+= UEC Technology Overview （全体像やトピック毎の詳細解説）
+:toc:
+ifndef::imagesdir[:imagesdir: ../images]
+include::footnotes-uec.adoc[]
+
+本章では、最初にUECが取り組む技術の全体像を俯瞰し、各レイヤーでどのような技術の開発が進められているかを紹介します。
+
+その後、更に技術を深掘りした人向けに、UECで仕様策定が進められている各技術の詳細を解説します。
+
+== UEC技術の全体像
+
+UECでは、イーサネットをAI/HPCアクセラレータのノード間インターコネクトとして利用する際に重要なRMAを高性能かつ効率的に行うために、トランスポートレイヤーからリンクレイヤーにかけ、幅広いレイヤーで技術開発が行われています。
+その中には、既存の RMA over Ethernet 技術であるRoCEv2の運用経験からくる改善点を含みます。
+
+.UECの技術スタックとRoCEv2との比較
+image::uec_tech_stack.png[UEC Technology Stack,id="uec_tech_stack_png"]
+
+最も大きな特徴は、図：<<uec_tech_stack>> のようにトランスポートレイヤーをRoCEv2から、新しく策定した UET (Ultra Ethernet Transport) に置き換えたことです。
+UETでは、モダンなHPC向け RMA API でありHPCアプリケーションで幅広く利用されている libfabric API を採用し、拡張しています。
+
+[NOTE]
+====
+図：<<uec_tech_stack_png>> は Libfabric API を前提としたスタックとなっていることに注意してください。
+Libfabricを利用しているアプリケーションやミドルウェアはAPI拡張への対応でUEC技術を利用可能な場合もありますが、Libfabricを利用していないアプリケーションやミドルウェアの場合、UETをサポートするために大きな変更（プログラムの改修）が必要となる可能性があります。
+====
+
+UETは名前の通り輻輳制御などを担うトランスポートレイヤーの技術ですが、効率的なトランスポートプロトコルやアルゴリズムを実現するために、ネットワークレイヤーでも新しい技術が開発され、密に連携しながら動作しています。
+
+そのため、**ネットワークレイヤーの技術であっても、UETの利用が前提となっています。**
+
+但し、UEC技術のインクリメンタルな採用が可能なように、ネットワークレイヤー以下の機能はオプショナルとなっており、既存のスイッチでもUET自体は利用可能です。
+
+その他、In Network Collectives (INC) と呼ばれる、スイッチファブリック内で集合計算の一部を実行する技術も開発されています。
+また、AI/HPCにより生成されたモデルや、モデル作成に利用するデータのビジネス的な重要性が増していることから、セキュリティ機能も追加されています。
+（セキュリティ機能に関しては解説は省略しています)
+
+[NOTE]
+====
+AI/HPCワークロードでのアプリケーションは、データをパケットでは無くメッセージ単位で送受信（指示）するため、効率的なデータ送受信のためにはメッセージ境界を意識した方式が必要になります。メッセージは1つまたは複数のパケットから構成されるため、メッセージまたはパケットどちら（もしくは両方）の順序が意味を持つのか、順序に依存しないのか、を意識することが重要です。
+====
+
+=== UEC Profile
+
+UECでは、AIやHPCなど異なるワークロードに対応可能な技術仕様を策定しています。
+また、前述の通り、UEC技術の全てが必須サポートではなく、オプショナルとして定義された技術や機能があります。
+
+UECではプロファイルを定義することで、ワークロードの種類毎に必要な技術や機能を選択的に利用可能になっています。
+
+=== 将来的に検討が進められている技術（公開情報のみ記載）
+
+UECでは2025年Q1に公開予定の version 1.0 以降も開発は続けられ、将来的には以下のようなユースケースや機能の拡張が段階的に行われていく予定です。
+
+* ストレージへの適用
+ ** Storage APIs on UET
+* 管理機能
+ ** OpenConfig や RedFish による設定管理
+* テレメトリー機能
+ ** Congestion Signaling (CSIG) {draft_ravi_ippm_csig} や Back to Sender (BTS) {back_to_sender}
+* その他
+ ** 性能測定やデバッグ手法の標準化
+ ** プロファイル毎のコンプライアンステスト（オプショナルな機能を含む）
+
+=== レイヤー毎のUEC技術一覧
+
+表：<<uec_tech_by_layer>> に、現在検討が進められていることが公表されているUEC技術をレイヤー毎にまとめました。
+（UETを中心に他レイヤーの技術に依存している機能もありますので、各技術毎に中心となるレイヤーに分類してあります。）
+
+以降、それぞれの技術について概要を解説していきます。
+
+.レイヤー毎のUEC技術一覧
+[cols="1,3",id="uec_tech_by_layer"]
+|===
+| Layer | Features
+
+|Application
+| （Libfabric とUEC拡張に対応した様々なAI/HPCアプリケーション）
+
+|Software APIs
+a|
+* Libfabric 2.0 の拡張
+
+|Transport
+a|
+* UET (Ultra Ethernet Transport)
+ ** Posted Buffer (out-of-order delivery)
+ ** Fast Ramp and Slowdown
+ ** Ephemeral Connections
+ ** Receiver-generated Credit (manage incast)
+ ** Optimistic Transmission (before credits received)
+* Security (encription, host-level security and authorization)
+
+|Network Layer (IP)
+a|
+* Packet Trimming
+* Packet Spray
+
+|Link Layer (Ethernet)
+a|
+* Link Layer Retransmit (LLR)
+* LLDP (capability negotiation)
+
+|===
+
+== UET：AIやHPC向けトランスポートプロトコル
+
+ロスレスファブリックの課題を解決し、ロスレスを必要としないトランスポートプロトコルとして、Ultra Ethernet Transport (UET) が開発されました。
+
+UETは以下の要件を満たすよう設計されています。
+
+* IPおよびイーサネット上で動作することを最初から設計された、オープンなプロトコル仕様  
+* ネットワークやワークロード固有の輻輳アルゴリズムのチューニング（パラメータ調整）が不要
+* 集中型の負荷分散アルゴリズムやコントローラーが不要
+* マルチパスおよびパケットスプレーの採用（輻輳やヘッドオブラインブロッキングの防止）
+* インキャスト管理メカニズム（ファンインを最小限のドロップで制御）
+* 効率的なレート制御アルゴリズム（迅速にワイヤレートに到達可能）
+* 順序の異なるパケット配信を可能とするAPI（オプションで順序通りの配信もサポート）
+ ** ネットワークとアプリケーションの並行性の最大化
+ ** メッセージ遅延の最小化
+* 将来のネットワークに対応し、100万のエンドポイントをサポート可能なスケーラビリティ
+* 800G、1.6T、さらには将来のより高速なイーサネットで、市販のハードウェアを使用したワイヤレート性能が達成可能な設計
+
+これら要件を実現するため、UETはトランスポートレイヤーに留まらず、セマンティックレイヤー（Semantic Layer）も拡張しています。
+そのため、Libfabric などのライブラリの対応も必要となりますが、UECでは Libfabric Provider の参照実装を公開予定です。
+
+このように、UETはUECの中核となる技術でありRoCEv2を置き換えることから影響範囲が大きいため、利用する際にはどのコンポーネントの変更が必要か、十分な理解が必要です。
+
+[NOTE]
+====
+* パケットスプレーやそのために必要なFlexible Orderingの他、後述するトリミング（Packet Trimming）やエフェメラルコネクション（Ephemeral connections）といった技術は、従来のDCQCN(+RoCEv2)では利用できず、トランスポートプロトコルとしてUETが利用されていることが必要です。
+* Libfabric では "エンドポイント（endpoint）" は Socket API (TCP/UDP) のソケットに該当します。そのため、スケーラビリティで "100万エンドポイント" は必ずしも100万ノードを意味しません。
+====
+
+=== Packet Spray (Posted Buffer)
+
+スイッチにおけるハッシュの偏りを防ぐために Dynamic Load Balancing (DLB) などの技術が利用されていますが、パケットのリオーダリングを防ぐため flowlet を認識するためのidle閾値、パスの品質判定のための使用帯域の閾値の粒度など、様々なパラメーターに依存し、ワークロード毎に応じたチューニングが必要と言われています。_[NOTE]_
+
+UETではこれらを不要にするために、利用可能な全てのパスを利用してパケットを送信する "Packet Spray" 方式を採用しています。
+Packet Spray は、 multipathing や out-of-order delivery (OOO) とも呼ばれます。
+
+本方式により発生するパケットのリオーダリングには、（スイッチなどネットワークファブリックではなく）サーバーサイド（トランスポートレイヤー）で対応しています。
+効率的にリオーダーに対応するため、UETでは "Posted Buffer" を採用しています。
+（プロダクション環境では、トランスポートレイヤーの処理はNICにオフロードされることが想定されます）
+
+Posted Buffer とは、パケット毎に書き込むバッファのIDが振られており、どの順番で受信しても正しいバッファにデータが書き込まれる方式です。
+これにより、パケット受信後のリオーダー処理が不要となり、途中のパケット受信を待つことなく、直接受信プロセスのメモリへの書き込み（RMA）が可能となります。
+
+.Posted Buffer
+image::uec_tech_posted_buffer.png[Packet Spray,width=90%,id="uec_tech_posted_buffer_png"]
+
+
+[NOTE]
+====
+既存環境でのチューニングの必要性については、<<uec-using.adoc,UECを利用するための検討ポイント>> で考察しています。
+====
+
+=== Packet Trimming (optional)
+
+トランスポートレイヤーにおけるパケットロスの検知には、以下のような方法があります。
+
+* out-of-order (OOO) パケットの検知
+* timeout （タイムアウト）
+
+しかし、Packet Spray ではOOOを許容しているため、OOOを用いたパケットロスの検知ができません。
+また、タイムアウトを利用する場合、Packet Sprayでは様々なパスを経由するため、遅延の揺らぎを考慮しある程度余裕を持ったタイムアウト値にする必要があり、パケットロス検知までに時間が長くなり性能に悪影響を及ぼします。
+
+そのため、UECではパケットロスを検知する新しい方法として "Packet Trimming" を採用しました。
+
+====
+.Packet Trimming の動作：NANOG92 {nanog92_keynote_uec} の図を引用。解説は著者により日本語訳
+image::uec_tech_packet_trimming_nanog92.png[id="uec_tech_packet_trimming_nanog92_png"]
+
+* ドロップする代わりに 64byte に切り捨て（Trim）
+* DSCPを "trimmed" としてマーク
+* 高優先キューを用いて送信（enqueue）
+====
+
+Packet Trimming はスイッチの機能で、図：<<Packet Trimming の動作>> のように輻輳が発生した場合にパケットをドロップするのではなく、パケットをトランスポートレイヤーで一意に認識可能な必要最小限のヘッダ情報を残し切り捨て（Trim, Truncate）、高優先キューを用いて転送します。
+これにより、"輻輳が発生し" "パケットがドロップされた" という情報を素早く受信側に伝え、再送要求や送信ペースの調整といった輻輳回避を含む対応をタイムアウト方式に比べ低遅延で実行可能になります。
+
+本機能は、特にLLM等のAIワークロードではメッセージサイズ（パケットサイズ）が大きいため効果的です。
+（例えば4096バイトパケットを64バイトに Trim した場合、64倍のデータ削減になります）
+
+
+[NOTE]
+====
+* Packet Trimming は、Broadcom Tomahawk 5 では Drop Congestion Notification (DCN) という機能名でサポート済みです。 {bcm_blog_cognitive_routing_th5}
+* SAIへの追加は "PR#2077 Add packet trimming API" {github_sai_pr2077_packet_trimming} で議論されており、デザイン文書 "SAI-Proposal-Packet-Trimming.md" {github_sai_packet_trimming_draft} が参考になります。
+====
+
+=== UETの輻輳制御アルゴリズム
+
+AI/HPCワークロードの特性として、データ転送と計算を何度も繰り返す事に加え、Packet Spray により広帯域を利用可能なことから、"大きなデータを短時間で送受信" するという特徴があります。
+例えば、800Gbpsの帯域を利用可能な場合、1MBのデータ送信は10usecで完了します。
+
+このため、TCPのスロースタートといったアルゴリズムではなく、AI/HPCワークロードに適した以下特徴を持つ輻輳制御アルゴリズムを採用しています。
+
+UETの輻輳制御アルゴリズムの特徴::
+* Fast Ramp: 送信開始時、最速でワイヤーレートまで転送レートを上げる
+* Fast Slowdown: 輻輳検知時、素早い送信レートの削減（back off）
+
+また、オプションとして受信側での輻輳制御機能も存在します。
+
+受信側での輻輳制御機能::
+* receiver-generated credit manages incast
+* optimistic transmission before credits received
+
+=== Ephemeral Connection （エフェメラルコネクション）
+
+UETではセッション開始時の遅延を削減するために、Ephemeral Connection （エフェメラルコネクション）を採用しています。
+直訳すると "儚いコネクション" であり、以下のような特徴を持ちます。
+
+Ephemeral Connection の特徴::
+* ハンドシェイクを不要とし、転送開始までの遅延を排除
+* コネクション毎のステートの削減
+
+.Ephemeral Connection
+image::uec_tech_ephemeral.png[Ephemeral Connection, id="uec_tech_ephemeral_png"]
+
+AI/HPCワークロードでは、短い時間(ms~us)のコネクションが大量に発生するという特徴を持ちます。
+そのため、コネクションの開始終了に必要な時間（遅延）を削減することが、性能向上に貢献します。
+
+また、高速通信におけるトランスポートレイヤーの処理はNICへのオフロードが必須となっており、限られたリソースで多くのセッションを効率的に処理するために、コネクション毎のステートの削減は貴重なNICリソースの削減に大きな効果があります。
+
+
+== イーサネットの拡張機能（LLR, CBFC, LLDP）
+
+UECではリンクレイヤーであるイーサネットの拡張機能として、Link-Layer Retransmission (LLR) を開発しました。
+また、LLRへの対応有無を含めたキャパビリティネゴシエーション手段として、LLDPを拡張しています。
+
+これらはオプショナルな機能であるため、利用しない場合は既存のスイッチでUEC技術（UET）を利用可能です。
+
+[NOTE]
+====
+UECのBlog {uec_spec_update_20240829} などでは、Retransmission ではなく Retry を用いる場合もあります。
+====
+=== Link-Layer Retransmission (optional)
+
+Link-Layer Retransmission (LLR) は以下を目的として開発された、CBFC: Credit Based Flow Control を利用しリンクレベルでのパケットロスを防ぐ技術です。
+
+* ローカル再送（local retransmission）を行い end-to-end再送を不要にすることで tail latency を削減
+* リンクやトランシーバーの障害に対応
+
+AI/HPCでは大量のトランシーバーを利用するため、リンクレイヤーの障害にどう対応するかも、性能や可用性向上に影響があると考えられます。
+
+.Link-Layer Retransmission (LLR): NANOG92 {nanog92_keynote_uec} の図を引用
+image::uec_tech_llr.png[Link-Layer Retransmission, id="uec_tech_llr_png", width=90%]
+
+== In Network Collectives (INC)
+
+In Network Collectives (INC) とは、Collective Communication Operation（集団通信操作）をネットワーク（スイッチファブリック）上のノードで実行することにより、遅延の削減やネットワーク帯域の消費を抑え、処理の高速化を実現する技術です。
+
+一般的に INC は In-Network Computing (Computation) の略語として利用されており、集団通信操作に限定せず、ネットワーク内で計算を実行することにより効率化や高速化を図る技術であり、UECの In Network Collectives も技術の分類としては In-Network Computing に含まれます。
+
+[NOTE]
+====
+INCの表記について::
+現状、UEC SW Working Group 内の議論では、In Network Collectives (INC) の In と Network の間にハイフン（`-`）を入れない表記を利用しているため、本文書でもあえて入れてません。
+但し、UEC仕様検討の過程でハイフン有りになる可能性もあります。
+2025年Q1にリリース予定のUEC INC仕様書が公開された以降は、そちらの文書で定義された Terminology に従いましょう。
++
+逆に、In-Network Computing など、UEC外ではハイフンを入れることが多い（と著者は感じている）ため、ハイフンを入れています。
+例えば NVIDIA の公式文書では In-Network Computing と表記しています。
+====
+
+先行技術としては Mellanox (元NVIDIA) が開発した Scalable Hierarchical Aggregation and Reduction Protocol (SHARP^TM^) がありますが、SHARP は InfiniBand でのみ動作し、NVIDIA製のNIC（ConnectX, BlueField）が必要となります。
+
+これに対し、UECのINCはオープンな仕様で、マルチベンダのイーサネットスイッチ（ASIC）やNICで動作可能になる予定です。
+
+UEC INC の詳細は公開されていませんが、SHARPとの違いは以下の通りで、概念的には非常に似ています。
+
+* イーサーネット上で動作
+* データ転送にUETを用いる
+
+そのため、仕様公開まではSHARPについて調査することで、UEC INCについてもある程度の動作をイメージすることが可能です。
+
+* SHARPポータルページ："NVIDIA Docs Hub > NVIDIA Networking > Accelerator Software" {docs_nvidia_sharp}
+* SHARPのオリジナル論文：IEEE Xplore "Scalable Hierarchical Aggregation Protocol (SHArP): A Hardware Architecture for Efficient Data Reduction" {ieeexplore_sharp} {ieeexplore_sharp_citation}
+ ** NVIDIAのWEBサイトからダウンロードできます {nvidia_sharp_paper_download}
+
+上記のような公式ドキュメント以外にも、YouTubeにチュートリアルや研究発表のカンファレンス講演が掲載されていますので検索してみてください。
+
+[NOTE]
+====
+In Network Collectives に関する、著者の個人的な感想メモです。
+十分な理解ができておらず考えがまとまってないので、一緒に調査や考察をする人を募集中です。
+
+* UECはマルチベンダのため、INCをサポートするスイッチASICやサーバーサイドのNIC、ミドルウェア、などが色々出てくると思われる。
+* そのため、導入検討や評価を行う際には、INCの実装間の比較や、SHARPとの比較をするポイントを整理する必要がある。
+* 評価視点の例：
+ ** ワークロードの特徴を確認もしくは仮定した上で評価する必要がある。
+ ** HPCに比較し、AI(LLM)はメッセージサイズが大きい。
+ ** Switch ASIC のメモリは限られているため、AIワークロードのようにメッセージサイズが大きいと分割して転送、計算、結合、などする必要があるのでは？（仮説）
+ ** 分割して計算するアルゴリズムは様々なものが考えられるので、同じINCでも、INC Switchとライブラリの組み合わせによってアルゴリズムが異なり、性能にも大きく影響することがあるのでは？
+ ** 得意なワークロード、データサイズ、それによる性能の高低、などを判断し最適な実装を選択するには、INC Switchの実装と、MPI CC操作をINCで実行するアルゴリズムの、両方を深く理解する必要がありそう。この部分がUECで標準化されるかはまだ不明。
+* これ参考になる？ Session 13 "Designing In-Network Computing Aware Reduction Collectives in MPI"
+ ** https://www.openfabrics.org/2024-ofa-virtual-workshop-agenda/
+====

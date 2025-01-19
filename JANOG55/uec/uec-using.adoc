@@ -1,0 +1,349 @@
+= UECを利用するための検討ポイント
+:toc:
+ifndef::imagesdir[:imagesdir: ../images]
+include::footnotes-uec.adoc[]
+
+従来のAI/HPCネットワーク技術からの大きな変更点として、UECではトランスポートをRoCEv2からUETに置き換えています。
+そのため、UECの技術の利用検討にあたっては、ハードウェアとソフトウェアの両面で "変更（開発）が必要なものと既存のまま利用が可能なもの" を整理し、システム、サービス、構築や運用の人員、などへの影響と、変化によるメリットやデメリットを理解しながら進める必要があります。
+
+本章では、UEC技術の利用検討を進める際のポイントを以下視点から整理しました。
+
+* UECを利用することによる変化や注意点
+* UECを利用する際の検討ポイント
+* UEC仕様や製品のロードマップ、UEC対応製品（対応製品はどのベンダーからいつ提供されるか？）
+
+== まとめ
+
+* UECはRoCEv2をUETと置き換える "スタック全体の改善"
+ ** AIアプリケーションやミドルウェアを含め、影響範囲を理解することが重要
+ ** GPU, NIC, Switch ASIC, Switch OS, 等、様々なベンダと連携した技術検証が必要
+* UECの各要素技術がリリースされるタイミングは様々
+ ** 段階を追った技術検証が必要
+* リンクやネットワークレイヤーの機能はオプショナルなものが多い
+ ** 既存のイーサネットスイッチを利用した検証から開始可能
+
+== UECを利用することによる変化や注意点
+
+=== 技術スタックの変化
+
+.UECの技術スタックとRoCEv2との比較
+image::uec_tech_stack.png[UEC Technology Stack,id="uec_tech_stack_png_using"]
+
+RoCEv2を用いたAI/HPCネットワーク技術とUECの最も大きな違いは、図：<<uec_tech_stack_png_using>> のようにトランスポートレイヤーをRoCEv2から、新しく策定した UET (Ultra Ethernet Transport) に置き換えたことです。
+UETでは、モダンなHPC向け RMA API でありHPCアプリケーションで幅広く利用されている libfabric API を採用し、拡張しています。
+
+すなわち、libfabric を利用しているアプリケーションやミドルウェアはAPI拡張への対応でUEC技術を利用可能な場合もありますが、Libfabricを利用していないアプリケーションやミドルウェアの場合、UETをサポートするために大きな変更（プログラムの改修）が必要となる可能性があります。
+
+[NOTE]
+====
+libfabric 以外のAPIへの対応も時々議論に上がりますが、現状では明確なロードマップはありません。
+もし libfabric 以外のAPIへの対応が必要なユーザーが多い場合は議論が進む可能性がありますので、ユースケースや対応すると嬉しいライブラリなどUECメンバー企業に対してインプットすると良いでしょう。
+====
+
+逆にIPやイーサネットに対する拡張はオプショナルな機能のみであるため、既存のスイッチでもUETは利用可能です。
+但し、UETを活かした性能を得るためには、最低限 Packet Trimming などIPレイヤーの機能は対応が必要と考えられます。
+
+また、Lossless Ethernet が不要となることにより、PFCバッファ設定のチューニングなどが不要となるため、ネットワーク層の設定は従来よりシンプルになると考えられます。
+逆に、UETの実装である Libfabric Provider の安定性や性能はドライバを含めてNIC毎に異なる可能性があります。
+そのため、サーバーサイドのチューニングの必要性は未知数であり、少なくとも初期段階では、NIC毎に検証が必要と予想されます。
+
+=== デバイス構成による利用可能な技術の比較
+
+UECを利用する場合はもちろん、従来のRoCEv2の場合でもデバイス構成により利用可能な技術が異なります。
+
+図：<<uec_ai_hpc_hw_matrix_png>> に、GPU/NIC/Switch の組み合わせに対し利用可能な技術を整理しました。
+利用したい技術と必要な機材について検討する際に参考にしてください。
+
+例えば、Adaptive Routing を利用するには NVIDIA で機材を揃える必要があります。
+また、2025年1月時点でINCを利用するためには InfiniBand が必要となりますが、将来的にUEC対応のNICやSwitchを選択することでイーサネットでもINC利用可能になります。
+
+.AI/HPC Hardware Matrix
+image::uec_ai_hpc_hw_matrix.png[AI/HPC Hardware Matrix,id="uec_ai_hpc_hw_matrix_png"]
+
+
+=== UEC技術と関連するコンポーネント（まとめ） 
+
+UECの各技術を利用する際に関連するコンポーネントをまとめました。
+
+基本的にUECを利用する際には、NIC, Switch ASIC, Switch OS (NOS), AIアプリケーション、全てを考慮する必要がありますが、各技術のサポート有無について確認する製品やベンダーを絞り込みたい時に参照してください。
+
+なお、"AIアプリケーション" については、アプリそのもの、ミドルウェア、など、対応が必要な範囲が異なるため、更に詳細に分類して影響を確認する必要があると思われます。
+
+[cols="3,7,1,1,1,2"]
+|===
+| Technology | Description | Switch ASIC | Switch OS | NIC (driver) | AIアプリ
+
+// Technology
+| UEC Transport (UET)
+// Description
+| RoCEv2の置き換えとなるトランスポートプロトコル。Out-of-order パケットの受信、ベストエフォート（非ロスレス）、等に対応。
+// Switch ASIC
+| optional
+// Switch OS
+| optional
+// NIC (driver)
+| YES
+// AIアプリケーション
+| YES
+
+// Technology
+| Packet Trimming
+// Description
+| Drop Congestion Notification (DCN) とも呼ばれる。
+輻輳発生時に、パケットを一定のサイズにトリムし、高優先度で転送することにより受信ノードに輻輳を伝える。
+これにより、ドロップ検知Timerによる遅延を無くす。
+// Switch ASIC
+| YES
+// Switch OS
+| YES
+// NIC (driver)
+| YES
+// AIアプリケーション
+| NO
+
+// Technology
+| Link Level Retry (LLR)
+// Description
+| イーサネットのリンクレイヤでパケットロスが発生しないように送信管理や再送を行う。
+Credit Based Flow Control (CBFC)
+// Switch ASIC
+| YES
+// Switch OS
+| YES
+// NIC (driver)
+| YES
+// AIアプリケーション
+| NO
+
+// Technology
+| LLDP Negotiation
+// Description
+| LLRのサポートなど、キャパビリティをノード間でネゴシエーションする。従来のLLDPにUEC拡張が行われる。
+// Switch ASIC
+| YES
+// Switch OS
+| YES
+// NIC (driver)
+| YES
+// AIアプリケーション
+| NO
+
+// Technology
+| Packet Spray, Ordered(ROD) and un-ordered(RUD)
+// Description
+| 利用可能なパス全てにパケットをSprayすることで、パケットレベルのロードバランシングを実施し、イーサネットファブリックの利用率を向上させる。
+UETの機能であり、パケット（メッセージ）にメモリのどの場所に保存すべきか識別可能なIDを埋め込むことにより、受信ノードでパケットのリオーダー（バッファリング）を不要にする。
+// Switch ASIC
+| YES?
+// Switch OS
+| YES?
+// NIC (driver)
+| YES
+// AIアプリケーション
+| NO
+
+// Technology
+| Ephemeral connections （短命コネクション）
+// Description
+| 最初のパケットにセッション情報入れてハンドシェイクを不要にする。（PDC,PDS）
+バースト的なデータ転送を繰り返すワークロードでハンドシェイクのオーバーヘッドを排除しバースト毎の転送時間の短縮によるスループット向上を実現する。
+// Switch ASIC
+| NO
+// Switch OS
+| NO
+// NIC (driver)
+| YES
+// AIアプリケーション
+| NO
+
+// Technology
+| In Network Collectives (INC)
+// Description
+| Collective Communication Operation を Switch Fabric 内のスイッチにオフロードする。
+恩恵として性能向上（輻輳やデータ転送量の削減、遅延の削減）、リソース利用効率の向上（プロセッサ、アクセラレータ、メモリ）、消費電力の削減、が期待される。
+// Switch ASIC
+| YES
+// Switch OS
+| YES
+// NIC (driver)
+| YES
+// AIアプリケーション
+| ??
+
+|===
+
+
+== UECを利用する際の検討ポイント
+
+UECを利用する際の検討ポイントとして思いついたものを列挙しました。
+
+組織（ユーザー、メーカー（ベンダー）、システムインテグレーター）、役割（ネットワークエンジニア、サーバーエンジニア、アプリケーション開発者）、ユースケース、予算、等によってそれぞれ重視すべき検討ポイントは異なると考えられます。
+
+ここには2025年1月時点で著者が思い浮かんだもののみを記載していますので、「こんな視点もある」「この視点から考えるとメリット・デメリットが異なる」、などありましたら是非フィードバックお願いします。
+
+=== Infiniband に対する Ethernet を利用する理由
+
+UECの前に検討が必要なのが、InfiniBandとイーサーネットどちらを選択するか、であり、例えば以下のような視点が考えられます。
+
+* 安定性：遅延やスループットが安定しているか？（Job完了時間の短縮や安定性が最終指標）
+* 柔軟性：構成変更が容易か？
+* 価格
+* 人材確保の容易さや教育コスト
+* マルチテナンシーの必要性
+* AI/HPC以外のトラフィックを利用するか？
+
+立場や状況により重視する視点は様々ですが、サービス事業者の観点からは2025年1月に公開された LINEヤフーのBLOG "GPUクラスタネットワークとその設計思想（Rethinking AI Infrastructure Part 2）" {blog_lineyahoo_20250115} でわかりやすく整理されていました。
+
+.なぜEthernetを選択するのか（LINEヤフーBLOG {blog_lineyahoo_20250115} から引用）
+image::uec_blog_lineyahoo_20250115_why_ethernet.png[id="uec_blog_lineyahoo_20250115_why_ethernet_png"]
+
+逆に大規模なトレーニングで利用する場合は、METAなどハイパースケーラー企業が公開しているBLOGや論文を参照すると、また異なる視点について学ぶことができます。
+
+=== NVIDIA Suites を利用しない理由
+
+周辺ライブラリやソフトウェアエコシステムの成熟度から、AI分野では GPU, NIC, Switch 全てを NVIDIA の機材を利用する、というのが最初に選択肢と上がることが多いでしょう。
+
+* NVIDIA Suites: BlueField/ConnectX + Spectrum + Cumulus, Spectrum X, etc.
+
+NVIDIAもUECのメンバー企業であるため、将来的にNCCLといったNVIDIAライブラリへの対応が進んで行く可能性はありますが、最初のリリースでは対応していないと予想されます。
+そのため、「なぜNVIDIAスイートを選択しないのか？」ということをクリアにすることが、UECに限らずNVIDIAではない機材や技術を選択する際に重要であり、例えば以下のような視点が考えられます。
+
+* 価格
+* 納期
+* AI専用チップなど、NVIDIA GPU以外のAIアクセラレータの利用
+* ベンダーロックインの回避
+
+=== UECとRoCEの比較
+
+主な点を列挙してみました。
+
+ここに記載した内容が正解というわけでもなく他の視点も沢山あるかと思いますので、引き続きJANOG55などでの議論を通じて、整理・追記していきたいと考えています。
+
+* メリット
+ ** オープンな技術と実装（ライブラリのソースコードへのアクセス？）
+ ** Lossless Ethernet が不要 => チューニング不要なシンプルなスイッチファブリック
+ ** アクセラレータの選択肢拡大
+* デメリット
+ ** NVIDIAエコシステムからの移行の手間や動作しないリスク
+ ** NVIDIAお任せにできない（UECシステムパックを提供するベンダが出現するかも？DELL,HPE？）
+ ** システムインテグレーションに伴う検証や相性問題のリスク
+
+
+=== 既存環境でのチューニングの必要性について
+
+RoCEv2が前提とするロスレスイーサネットでの性能限界を達成するためには、バッファサイズや閾値など、ワークロードに応じたチューニングが必要と言われています。
+しかし、達成したい性能とチューニングにかけられるコスト（時間と機材）のバランスや優先度は、各サービス（システム）や組織により異なります。
+
+そのため、例えば以下のような観点を考慮し、「チューニングを行わない方が良い」、という判断になる可能性もあると考えられるため、"チューニングが不要" というのがUEC導入理由になるかは、利用するアクセラレータに応じて、各種ベンチマークや性能以外の指標や利便性を考慮しながらの判断になると考えています。
+
+* デフォルト設定での性能
+* サービスの規模（巨大サービスでは小さな改善でも大きな効果がある）
+* チューニングが可能な人材のコスト
+* チューニングに必要な期間（その間の機会損失）
+* ネットワーク、サーバー、などのコストバランス
+* 利用するアクセラレータ（GPU）の技術スタックの成熟度
+
+
+== UEC仕様や製品のロードマップ
+
+UECの仕様や製品がいつリリースされるかは、利用検討の重要な要素です。
+
+図："UEC Target Timelines, 2024-10-15" は2024年10月に開催されたOCP Global Summitで発表されたロードマップです。
+これによると、UECの仕様や製品がリリースされるのはそれぞれ以下のタイミングになりそうです。
+
+* UEC仕様(v1.0) : 2025年3月頃（第一四半期）
+* UEC対応製品：2025年（おそらく中旬以降？）
+
+但し、2023年時点では2024年中に仕様公開を目指すと発表されていましたので、今後ロードマップが変更される可能性もあります。
+UECのプレスリリース、BLOG、ベンダー各社からの発表などを通じて、最新の動向を確認しながら検討を進めましょう。
+
+.UEC Target Timelines, 2024-10-15, {ocp_2024_uec_uri_accel_aihpc} から引用
+image::uec-target-timelines-20241015.png[UEC Target Timelines 2024-10-15,width=80%,id="uec_target_timelines_20241015_png"]
+
+
+== UEC対応製品（出荷前の製品を含む）
+
+2024年後半には各社からUEC対応製品についてのアナウンスが相次ぎました。
+ここではUEC対応製品を列挙します。
+アナウンスがあった製品はそのリンクを、アナウンスはまだ無いがおそらくUEC対応製品をリリースすると思われるベンダーに関してはプレースホルダとして企業や製品名だけを記載してあります。
+
+なお、UECに限らずデータセンター向け製品は、最初はハイパースケーラーなど大量購入する企業に割り当てられて、その後に大規模〜中規模の事業者で購入が可能になる傾向があります。
+そのため、製品リリースと実際に入手可能になるタイミングにはズレがあることが多いことに注意が必要です。
+
+=== AMD
+
+==== AMD Pensando Pollara 400 (SmartNIC)
+
+* AMD Pensando Pollara 400, the first Ultra Ethernet Consortium ready NIC, reduces the complexity of performance tuning and helps improve time to production.
+ ** https://ir.amd.com/news-events/press-releases/detail/1218/amd-unveils-leadership-ai-solutions-at-advancing-ai-2024
+* AMD unveils industry's first Ultra Ethernet ready network card for AI and HPC News, October 11, 2024
+ ** https://www.tomshardware.com/networking/amd-unveils-industrys-first-ultra-ethernet-ready-network-card-for-ai-and-hpc
+
+=== Broadcom
+
+==== Thor 2 NIC Chip
+
+* 2024-07-02, "Word on the Street: Broadcom high-performance 400G RoCE / RDMA NICs"
+ ** https://www.broadcom.com/blog/400g-roce-rdma-nics
+
+==== Switch ASIC
+
+* Tomahawk 5: Packet Trim (DCN) に対応
+* Jericho 3-AI: ???
+
+=== Marvell Technology
+
+=== Marvel NIC
+
+* SmartNIC をリリースする可能性あり？
+
+==== Marvell Teralynx Ethernet Switch
+
+* Marvell Technology: As a member of the UEC, Marvell is committed to advancing Ethernet technology for AI and accelerated computing. Their Teralynx® Ethernet switches are optimized for low-latency fabrics between compute nodes, aligning with UEC's objectives.
+ ** https://multiplatform.ai/marvell-teralynx-10-switch-enters-production-to-meet-surge-in-ai-cloud-demands/
+
+
+=== Arista
+
+==== Arista Etherlink AIプラットフォーム
+
+* Arista Etherlink AIプラットフォーム
+ ** https://www.arista.com/jp/solutions/ai-networking
+* https://blogs.arista.com/blog/new-ai-era
+ ** Arista Etherlink is standards-based Ethernet with UEC-compatible features. These include dynamic load balancing, congestion control, and reliable packet delivery to all NICs supporting RoCE. Arista Etherlink will be supported across a broad range of 800G systems and line cards based on Arista EOSⓇ. As the UEC specification is finalized, Arista AI platforms will be upgradeable to be compliant.
+* https://www.arista.com/jp/company/news/press-release/19841-jp-pr-20240605
+ ** すべてのEtherlinkスイッチが新たに設立されたUltra Ethernet Consortium（UEC）の標準をサポートしています。この標準によって、近い将来UECのNICが利用可能になったとき、パフォーマンスのメリットがさらに大きくなると期待されています。
+
+=== Asterfusion
+
+UEC仕様が公開されたのち、将来的にUEC対応するとアナウンスしている。
+
+* 2024-09-03, The Ultimate Switches for Artificial Intelligence
+ ** https://medium.com/@Asterfusion/the-ultimate-switches-for-artificial-intelligence-80fb8033ce86
+  ** Asterfusion AI Switches Offers Forward-compatible Products with UEC Standard.
+  ** As the Ultra Ethernet Consortium (UEC) completes its expansion to improve Ethernet for AI workloads, Asterfusion is building products that will be ready for the future. The Asterfusion CX-N AI data centre switch portfolio is the definitive choice for AI networks, leveraging standards-based Ethernet systems to provide a comprehensive range of intelligent features. These features include dynamic load balancing, congestion control, and reliable packet delivery to all ROCE-enabled network adapters. **As soon as the UEC specification is finalised, the Asterfusion AI platform will be upgradeable to comply with it.**
+* CX864E Data Sheet
+ ** https://cloudswit.ch/wp-content/uploads/2024/06/Datasheet-CX864E-N-Ultra-Ethnet-Switch.pdf
+ ** "Line-rate programmability to support evolving UEC (Ultra Ethernet Consortium) standards" と記載されているため、将来的にUECに対応可能（だがまだサポートしていない）とも解釈できる
+* 2024-10-24, "The Ultimate In-Depth Exploration of Ultra Ethernet Consortium (UEC) Technology"
+ ** https://cloudswit.ch/blogs/exploration-of-ultra-ethernet-consortium-uec/
+
+=== Cisco Nexus 9000 Series Switches
+
+* 2024-12-12, "Nexus Improves Load Balancing and Brings UEC Closer to Adoption"
+ ** https://blogs.cisco.com/datacenter/nexus-improves-load-balancing-and-brings-uec-closer-to-adoption
+ ** Cisco Nexus 9000 is Ultra Ethernet ready
+
+=== Mercury AI-SuperNIC
+
+* 2025-01-06, "DreamBig Announces world leading 800G AI-SuperNIC chip (Mercury) with Fully HW Offloaded RoCE v2 + UEC RDMA Engine"
+ ** DreamBig Mercury chip features a hardware accelerated RDMA engine that supports existing RoCE (RDMA over Converged Ethernet) v2 and new UEC (Ultra Ethernet Consortium) standards, delivering best-in-class bandwidth (800Gbps) and throughput (800Mpps) with lowest power, ultra low latency, and smallest area.
+ ** https://www.prnewswire.com/news-releases/dreambig-announces-world-leading-800g-ai-supernic-chip-mercury-with-fully-hw-offloaded-roce-v2--uec-rdma-engine-302342748.html
+
+Mercury is designed with fully programmable Congestion Control to adapt to any data center and provides the following critical functions for AI applications
+
+* Multi-pathing and packet spraying
+* Out-of-order packet placement with in-order message delivery
+* Programmable congestion control for RoCE v2 and UEC algorithms
+* Advanced packet trimming and telemetry congestion notifications
+* Support for selective retransmission

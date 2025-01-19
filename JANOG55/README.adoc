@@ -1,0 +1,78 @@
+= JANOG55 UECセッション： AIインフラ解説資料 共有ページ
+:toc:
+
+== 本レポジトリについて
+
+JANOG55 Day 1 15:45~16:30 "UECセッション" に関連した技術情報をまとめた "AIインフラ解説資料（AI/HPC & UEC技術概要）" の共有を目的としたレポジトリです。
+
+資料の読み進め方については、本ページ <<howto,AIインフラ解説資料の読み進め方>> を参照してください。
+
+* Day 1 15:45~16:30
+* タイトル：Ultra Ethernet とは何か？ 「新しいイーサネット」への期待と課題を語ろう。
+* セッションページ： https://www.janog.gr.jp/meeting/janog55/ultra/
+* JANOG Slack https://join.slack.com/t/janog-meeting/shared_invite/zt-2y4j2yv6q-kJXKaYz_Fr6RoNr8aa3jUw[参加URL] (2025-02-18まで有効)
+
+セッション時間の45分で全ての内容を解説することは不可能なこと、当日は可能な限り議論に多くの時間を取りたいことから、事前に本資料を参照していただくことをお勧めします。
+もし、質問がある場合、誤りを発見した場合などは、本レポジトリにIssueを作成してください。
+また、JANOG Slack でコメントする場合は `@ebiken` をメンションしてください。
+
+注意 ::
+"AIインフラ" と銘打ってますが、JANOGに向けた参考資料ということで、ネットワーク技術及び UEC (Ultra Ethernet Consortium) に関する解説に重きがおかれています。
+サーバー、アクセラレーター（GPU）、ライブラリー、など、AIインフラの上位レイヤーに関する良い資料がありましたらぜひ教えてください。
+
+[[howto]]
+// tag::howto[]
+== AIインフラ解説資料の読み進め方
+
+JANOG55 AIインフラ解説資料（PDF）は link:janog55-ai-infra.pdf[janog55-ai-infra.pdf] からダウンロード可能です。
+
+AIワークロードやインフラに関する理解度に応じて、以下のように読み進めていただくと良いでしょう。
+
+* 既存のAI/HPC関連ネットワーク技術をまず学習したい人は、最初の "既存のAI/HPC関連ネットワーク技術" から、"UEC概要"、"UEC Technology Overview" と準にを読み進めてください。
+* 既存技術について十分理解している人は、"UEC概要" から読み始めてください。
+* UECの背景や組織ではなく、UECの技術にのみ興味ある方は "UEC Technology Overview" から読み始めてください。
+* UEC技術や製品ロードマップ、および検討のポイントをざっと把握したい人は "UECを利用するための検討ポイント" を参照してください。
+
+注意 ::
+本資料に含まれるUEC関連情報は（2025年1月）時点での公開情報をもとに執筆しています。
+UEC技術の利用検討や評価を実施する際には、公式サイトの情報や、2025年前半に一般公開予定の "UEC Specification（UEC仕様書）" を参照してください。
+// end::howto[]
+
+== JANOG55 他セッションや野良BoF紹介
+
+JANOG55 Day 1 はAIインフラに関連したセッションが3つ連続で予定されています。
+それぞれ少しずつ違った視点でAIインフラについて解説や議論するセッションとなっていますので、AIインフラに興味ある方は3つ全てに参加することをお勧めします。
+
+また、Day 3 には GPU NW に関する野良BoFも予定されています。
+
+各セッションや野良BoFの情報をまとめましたので参考にしてください。
+
+=== Day 1 AI関連セッション：2025年1月22日（水) 
+
+* 14:45~15:30 第3展示場A
+ ** タイトル：AI/ML基盤におけるGPU間ネットワークの負荷と性能影響を探る
+ ** 発表者：加納 浩輝、奥澤 智子（トヨタ自動車株式会社）
+ ** https://www.janog.gr.jp/meeting/janog55/gpupfm/
+* 15:45~16:30 第1展示場A
+ ** タイトル：Ultra Ethernet とは何か？ 「新しいイーサネット」への期待と課題を語ろう。
+ ** 発表者：海老澤 健太郎（Arrcus, Inc.）、上野 裕一郎（Preferred Networks, Inc.）
+ ** https://www.janog.gr.jp/meeting/janog55/ultra/
+* 16:45~17:45 第3展示場A
+ ** タイトル：Rethinking AI Infrastructure: LINEヤフーが描く、内製技術で切り拓くネットワークとエンジニアリングの新時代
+ ** 発表者：大浦 晋、道下 幹也（LINEヤフー株式会社）
+ ** https://www.janog.gr.jp/meeting/janog55/ai-infra/
+
+=== Day 3 GPU NW 野良BoF：2025年1月24日（金) 
+
+公式ページの https://www.janog.gr.jp/meeting/janog55/norabof-cal/[野良BoFカレンダー] 及び
+https://calendar.google.com/calendar/u/0/event?eid=Mm9kN2RsZzdnNXI0MjY5NzhkaWZuYnFkazYgY2Q5OTRmNzRkMWE4Y2Q1MDE3MjY2YWM5ZTQyZGY3ZDA4ZTkwZWJlYjAyOGNhY2ZiNzAwNDBiOWNhYWM3MGIwOEBn[野良BoF Google Calendar JANOG55 GPU NW BoF]
+から抜粋した内容は以下のとおりです。
+
+* タイトル：JANOG55 GPU NW BoF
+* 日時：2025年1月24日（金) 10:00 ~ 11:00
+* 場所：B1F 特別展示場A（62席）
+* 主催者の氏名：大浦 晋
+* 主催者の所属組織：LINEヤフー
+* 概要(書式自由)：GPU NWを支える技術について、GPUインフラに携わっている技術者同士で情報交換が出来ればと考えています
+
+主催者の連絡先メールアドレスやJANOG Slack上の表示名は省略しています。上記 Google Calendar 等で確認してください。
