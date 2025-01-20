@@ -1,2 +1,3 @@
 # janog
-JANOG Public Repo
+
+Public Repo to store JANOG related documents managed by ebiken.
