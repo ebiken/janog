@@ -24,7 +24,7 @@ JANOG55 Day 1 15:45~16:30 "UECセッション" に関連した技術情報をま
 // tag::howto[]
 == AIインフラ解説資料の読み進め方
 
-JANOG55 AIインフラ解説資料（PDF）は link:janog55-ai-infra.pdf[janog55-ai-infra.pdf] からダウンロード可能です。
+JANOG55 AIインフラ解説資料（PDF）は link:https://github.com/ebiken/janog/blob/main/JANOG55/janog55-ai-infra.pdf[janog55-ai-infra.pdf] からダウンロード可能です。
 
 AIワークロードやインフラに関する理解度に応じて、以下のように読み進めていただくと良いでしょう。
 
@@ -32,6 +32,7 @@ AIワークロードやインフラに関する理解度に応じて、以下の
 * 既存技術について十分理解している人は、"UEC概要" から読み始めてください。
 * UECの背景や組織ではなく、UECの技術にのみ興味ある方は "UEC Technology Overview" から読み始めてください。
 * UEC技術や製品ロードマップ、および検討のポイントをざっと把握したい人は "UECを利用するための検討ポイント" を参照してください。
+* UETは Libfabric API を利用しています。Libfabricについて知りたいかたは、別紙 "Libfabric (OFI)" link:https://github.com/ebiken/janog/blob/main/JANOG55/hpc-libfabric.pdf[hpc-libfabric.pdf] を参照してください。
 
 注意 ::
 本資料に含まれるUEC関連情報は（2025年1月）時点での公開情報をもとに執筆しています。
