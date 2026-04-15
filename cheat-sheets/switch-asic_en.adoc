@@ -1,0 +1,257 @@
+= Switch ASIC / NPU Quick Reference
+:toc:
+:toclevels: 2
+
+Quick reference for Switch ASICs and NPUs supporting 100Gbps to 1.6Tbps interfaces.
+Covers Broadcom StrataXGS/StrataDNX families and NVIDIA Spectrum family.
+
+Abbreviations: NRZ = Non-Return-to-Zero, PAM4 = Pulse-Amplitude Modulation 4-level,
+CPO = Co-Packaged Optics, SerDes = Serializer/Deserializer, ToR = Top of Rack,
+SP = Service Provider, DC = Data Center, HBM = High Bandwidth Memory,
+FlexE = Flexible Ethernet, RoCE = RDMA over Converged Ethernet.
+
+== Broadcom
+
+=== Tomahawk Family (StrataXGS - High Bandwidth)
+
+High-bandwidth switches optimized for hyperscale data center spine/fabric deployments.
+Uses fixed pipeline with focus on throughput and low latency.
+
+[cols="2,2,1,2,1,2,4,1,1,3",options="header"]
+|===
+| Generation | Model | Capacity | SerDes | Physical Ports | Max Speed Config | Breakout Support | Node | Year | Notes
+
+| Tomahawk (TH1)
+| BCM56960
+| 3.2 Tbps
+| 25G NRZ
+| 32
+| 32x100G
+| 4x25G, 2x50G
+| 28nm
+| 2014
+| Hyperscale DC spine
+
+| Tomahawk 2 (TH2)
+| BCM56970
+| 6.4 Tbps
+| 25G NRZ
+| 64
+| 64x100G
+| 4x25G, 2x50G
+|
+| 2016
+| Hyperscale DC spine
+
+| Tomahawk 3 (TH3)
+| BCM56980
+| 12.8 Tbps
+| 56G PAM4
+| 32
+| 32x400G
+| 2x200G, 4x100G
+| 16nm
+| 2017
+| DC spine
+
+| Tomahawk 4 (TH4)
+| BCM56990
+| 25.6 Tbps
+| 50G PAM4 (8x50G for 400G)
+| 64
+| 64x400G
+| 2x200G, 4x100G
+| 7nm
+| 2019
+| Hyperscale DC
+
+| Tomahawk 5 (TH5)
+| BCM78900
+| 51.2 Tbps
+| 100G PAM4
+| 64
+| 64x800G
+| 2x400G, 4x200G
+|
+| 2022
+| AI/ML workloads; Cognitive Routing
+
+| Tomahawk 6 (TH6)
+| BCM78910
+| 102.4 Tbps
+| 200G/100G SerDes (PAM4)
+| 64
+| 64x1.6T
+| 2x800G, 4x400G, 8x200G
+| 2025
+| AI-scale fabric; CPO support
+
+|===
+
+=== Trident Family (StrataXGS - Programmable)
+
+Feature-rich switches with a programmable pipeline (compiler-programmable, per Broadcom).
+Positioned for enterprise, service provider, and programmable DC deployments.
+
+[cols="2,2,1,2,1,2,4,1,1,3",options="header"]
+|===
+| Generation | Model | Capacity | SerDes | Physical Ports | Max Speed Config | Breakout Support | Node | Year | Notes
+
+| Trident 3 X7
+| BCM56870
+| 3.2 Tbps
+| 25G NRZ
+| 32
+| 32x100G
+| 4x25G, 2x50G
+| 16nm
+| 2017
+| Programmable pipeline; ToR/spine
+
+| Trident 4
+| BCM56880
+| 12.8 Tbps
+| 50G PAM4
+| 64
+| 64x200G (up to 12.8Tb/s)
+| 2x100G, 4x50G
+| 7nm
+| 2019
+| Compiler-programmable
+
+| Trident 5
+|
+|
+|
+|
+|
+|
+|
+|
+|
+
+|===
+
+=== Jericho Family (StrataDNX - Routing / Switch-Router)
+
+Routing-focused ASICs with deep buffer (HBM) and service-aware packet processing.
+Used in service provider edge/core routers and carrier Ethernet platforms.
+
+[cols="2,2,1,2,1,2,4,1,1,3",options="header"]
+|===
+| Generation | Model | Capacity | SerDes | Physical Ports | Max Speed Config | Breakout Support | Node | Year | Notes
+
+| Jericho 2
+| BCM88690
+| 10 Tbps
+| 25G NRZ
+|
+|
+|
+| 16nm
+| 2018
+| Deep buffer (HBM options)
+
+| Jericho 2c
+| BCM88800
+| 4.8 Tbps
+|
+|
+|
+|
+|
+| 2019
+| Carrier routing / switch-router
+
+| Jericho 2c+
+| BCM88850
+| 14.4 Tbps
+|
+|
+|
+|
+| 7nm
+| 2020
+| High-performance routing silicon
+
+|===
+
+== NVIDIA
+
+=== Spectrum Family
+
+Ethernet switching ASICs with advanced RoCE support and AI networking features.
+This section lists ASIC generations (not switch system SKUs).
+
+[cols="2,2,1,2,1,2,4,1,1,3",options="header"]
+|===
+| Generation | Model / OPN | Capacity | SerDes | Physical Ports | Max Speed Config | Breakout Support | Node | Year | Notes
+
+| Spectrum (1st gen)
+|
+| 3.2 Tbps
+|
+|
+|
+|
+|
+|
+|
+| Spectrum SN2000 series is Spectrum-ASIC based
+
+| Spectrum-2
+|
+| 6.4 Tbps
+|
+|
+|
+|
+|
+|
+| ASIC product brief is the source of truth
+
+| Spectrum-3
+|
+| 12.8 Tbps
+| 50G PAM4
+|
+| up to 64x200GbE, 32x400GbE, or 128x100GbE
+|
+|
+| 2020
+| 256x50Gb/s PAM4 SerDes
+
+| Spectrum-4
+| (examples: `SPC4-E0256EC11C-A0`, `SPC4-E0128DC11C-A0`)
+| 51.2 Tbps
+| 100G PAM4
+|
+| 64x800GbE (also 128x400GbE, 256x200/100GbE)
+|
+| TSMC 4N
+| 2022
+| Spectrum-4 ASIC datasheet and NVIDIA announcement
+
+|===
+
+== References
+
+* Broadcom Tomahawk (TH1) BCM56960 product page: https://www.broadcom.com/products/ethernet-connectivity/switching/strataxgs/bcm56960-series
+* Broadcom Tomahawk II (TH2) announcement: https://www.broadcom.com/news/product-releases/broadcom-first-to-deliver-64-ports-of-100ge-with-tomahawk-ii-ethernet-switch
+* Broadcom Tomahawk3 (TH3) product page: https://www.broadcom.com/products/ethernet-connectivity/switching/strataxgs/bcm56980-series
+* Broadcom Tomahawk3 (TH3) announcement: https://www.globenewswire.com/news-release/2017/12/19/1266218/0/en/Broadcom-Ships-Tomahawk-3-Industry-s-Highest-Bandwidth-Ethernet-Switch-Chip-at-12-8-Terabits-per-Second.html
+* Broadcom Tomahawk 4 (TH4) announcement: https://investors.broadcom.com/news-releases/news-release-details/broadcom-ships-tomahawk-4-industrys-highest-bandwidth-ethernet
+* Broadcom Tomahawk 5 (TH5) announcement: https://investors.broadcom.com/news-releases/news-release-details/broadcom-ships-tomahawk-5-industrys-highest-bandwidth-switch
+* Broadcom Tomahawk 6 (TH6) announcement: https://investors.broadcom.com/news-releases/news-release-details/broadcom-ships-tomahawk-6-worlds-first-1024-tbps-switch
+* Broadcom Jericho2 (BCM88690) announcement: https://www.globenewswire.com/news-release/2018/03/06/1415849/19933/en/Broadcom-Ships-Jericho2-Industry-s-Highest-Bandwidth-Ethernet-Switch-Router-at-10-Terabits-per-Second.html
+* Broadcom Jericho2 (BCM88690) product brief: https://docs.broadcom.com/docs/88690-PB100
+* Broadcom Jericho2c (BCM88800) datasheet: https://docs.broadcom.com/docs/88800-DS1-PUB
+* Broadcom Jericho2c+ (BCM88850) announcement: https://www.broadcom.com/news/product-releases/broadcom-samples-industrys-highest-performing-routing-chip-at-14.4-terabits-per-second
+* Broadcom Trident 3 (BCM56870) product page: https://www.broadcom.com/products/ethernet-connectivity/switching/strataxgs/bcm56870-series
+* Broadcom Trident4 (BCM56880) product page: https://www.broadcom.com/products/ethernet-connectivity/switching/strataxgs/bcm56880-series
+* Broadcom Trident 4 announcement: https://www.globenewswire.com/news-release/2019/06/11/1866927/19933/en/Broadcom-Trident-4-Delivers-Disruptive-Economics-for-Enterprise-Data-Center-and-Campus-Networks.html
+* NVIDIA Mellanox Spectrum SN2000 series product brief (Spectrum ASIC based): https://www.nvidia.cn/content/dam/en-zz/Solutions/networking/br-sn2000-series.pdf
+* NVIDIA Spectrum-2 ASIC product brief: https://network.nvidia.com/files/doc-2020/pb-spectrum-2.pdf
+* NVIDIA Spectrum-3 ASIC product brief: https://network.nvidia.com/files/doc-2020/pb-spectrum-3.pdf
+* NVIDIA Spectrum-4 announcement: https://nvidianews.nvidia.com/news/nvidia-announces-spectrum-high-performance-data-center-networking-infrastructure-platform
+* NVIDIA Spectrum-4 ASIC datasheet (OPNs, port configs): https://hypertecsp.com/wp-content/uploads/ethernet-switches-spectrum-4-asic-datasheet-co-branded-1.pdf

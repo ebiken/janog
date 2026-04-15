@@ -1,0 +1,892 @@
+= Optical Transceiver & Cable Quick Reference
+:toc:
+:toclevels: 2
+
+Quick reference for optical transceiver and cable types used in Ethernet networks, covering 10G through 1.6T.
+
+Abbreviations: MMF = Multimode Fiber, SMF = Single-Mode Fiber, CWDM = Coarse WDM,
+LWDM = Long-reach WDM, PAM4 = Pulse-Amplitude Modulation 4-level, NRZ = Non-Return-to-Zero,
+DAC = Direct-Attach Copper, AOC = Active Optical Cable, APC = Angled Physical Contact.
+
+== Form Factors
+
+[cols="2,2,1,1,1,4",options="header"]
+|===
+| Form Factor | Max Speed | Lanes | Per Lane | Modulation | Notes
+
+| SFP+
+| 10G
+| 1
+| 10G
+| NRZ
+| Backward compatible with SFP
+
+| SFP28
+| 25G
+| 1
+| 25G
+| NRZ
+| Same physical size as SFP+
+
+| SFP56
+| 50G
+| 1
+| 50G
+| PAM4
+| Multi-rate: 1G/10G/25G/50G
+
+| QSFP+
+| 40G
+| 4
+| 10G
+| NRZ
+| Quad SFP; backward compatible with SFP+
+
+| QSFP28
+| 100G
+| 4
+| 25G
+| NRZ
+| Most common 100G form factor
+
+| QSFP56
+| 200G
+| 4
+| 50G
+| PAM4
+|
+
+| QSFP-DD
+| 400G
+| 8
+| 50G
+| PAM4
+| Double-density; backward compatible with QSFP+/QSFP28/QSFP56
+
+| QSFP-DD800
+| 800G
+| 8
+| 100G
+| PAM4
+|
+
+| QSFP-DD1600
+| 1.6T
+| 8
+| 200G
+| PAM4
+| Emerging; IEEE 802.3dj target July 2026
+
+| OSFP
+| 400G
+| 8
+| 50G
+| PAM4
+| Octal SFP; larger than QSFP-DD; higher power headroom (up to 12W+)
+
+| OSFP-XD
+| 800G
+| 8
+| 100G
+| PAM4
+| Extended OSFP; up to 15-20W thermal budget
+
+| CFP
+| 100G
+| multi
+| —
+| NRZ
+| Large form factor; telecom/line-side use; 82x13.6x144.8mm
+
+| CFP2
+| 200G
+| multi
+| —
+| NRZ/PAM4
+| Half size of CFP; supports 10x10G, 4x25G, 8x25G, or 8x50G lanes
+
+| CFP4
+| 100G
+| multi
+| —
+| PAM4
+| Quarter size of CFP; 4x25G or 4x10G
+
+| CFP8
+| 400G
+| 8
+| 50G
+| PAM4
+| 40x102x9.5mm; 16x25G or 8x50G PAM4
+
+|===
+
+== Reach Codes
+
+[cols="1,3,2,3,2,2",options="header"]
+|===
+| Code | Full Name | Typical Distance | Fiber Type | Wavelength | Typical Connector
+
+| SR
+| Short Range
+| 50-550m
+| MMF (OM3/OM4/OM5)
+| 850nm
+| MPO or LC Duplex
+
+| DR
+| Data Center Reach
+| 500m
+| SMF (single-lambda)
+| 1310nm
+| LC Duplex
+
+| FR
+| Fiber Reach
+| 2km
+| SMF (single-lambda)
+| 1310nm
+| LC Duplex
+
+| LR
+| Long Range
+| 10km
+| SMF (single-lambda or WDM)
+| 1310nm (single-lambda) / LAN-WDM (LR4)
+| LC Duplex
+
+| ER
+| Extended Range
+| 40km
+| SMF
+| 1550nm (10GBASE-ER) / 1310nm (100G/200G/400G ERx)
+| LC Duplex
+
+| ZR / ZR+
+| Coherent (industry)
+| ~80-120km (ZR), longer for ZR+ (vendor-specific)
+| SMF
+| C-band DWDM tunable
+| LC Duplex
+
+| CR
+| Copper Reach
+| 1-7m
+| Twinax copper (DAC)
+| N/A
+| Direct Attach Cable
+
+|===
+
+== Ethernet Standards by Speed
+
+=== 10G (10GBASE) -- IEEE 802.3ae
+
+[cols="3,2,3,2,2,3",options="header"]
+|===
+| Standard | Form Factor | Fiber / Distance | Wavelength | Connector | Breakout Options
+
+| 10GBASE-SR
+| SFP+
+| MMF: OM3 300m / OM4 400m
+| 850nm
+| LC Duplex
+| --
+
+| 10GBASE-LR
+| SFP+
+| SMF 10km
+| 1310nm
+| LC Duplex
+| --
+
+| 10GBASE-LRM
+| SFP+
+| MMF: OM1/OM2 220m
+| 1310nm
+| LC Duplex
+| --
+
+| 10GBASE-ER
+| SFP+
+| SMF 40km
+| 1550nm
+| LC Duplex
+| --
+
+| 10GBASE-ZR
+| SFP+
+| SMF 80km+
+| 1550nm
+| LC Duplex
+| --
+
+| 10GBASE-CR
+| SFP+
+| Twinax 1-7m
+| N/A
+| DAC
+| --
+
+|===
+
+=== 25G (25GBASE) -- IEEE 802.3by / 802.3cc
+
+[cols="3,2,3,2,2,3",options="header"]
+|===
+| Standard | Form Factor | Fiber / Distance | Wavelength | Connector | Breakout Options
+
+| 25GBASE-SR
+| SFP28
+| MMF: OM3 70m / OM4 100m
+| 850nm
+| LC Duplex
+| --
+
+| 25GBASE-LR
+| SFP28
+| SMF 10km
+| 1310nm
+| LC Duplex
+| --
+
+| 25GBASE-ER
+| SFP28
+| SMF 40km
+| 1310nm
+| LC Duplex
+| --
+
+| 25GBASE-CR
+| SFP28
+| Twinax 1-5m
+| N/A
+| DAC
+| --
+
+|===
+
+=== 40G (40GBASE) -- IEEE 802.3ba
+
+[cols="3,2,3,2,2,3",options="header"]
+|===
+| Standard | Form Factor | Fiber / Distance | Wavelength | Connector | Breakout Options
+
+| 40GBASE-SR4
+| QSFP+
+| MMF: OM3 70m / OM4 100m
+| 850nm
+| MPO-12
+| 4x 10GBASE-SR via MPO-12 to 4x LC Duplex fanout cable
+
+| 40GBASE-LR4
+| QSFP+
+| SMF 10km (CWDM 4 lambda)
+| 1310-1355nm
+| LC Duplex
+| --
+
+| 40GBASE-ER4
+| QSFP+
+| SMF 40km
+| 1310nm
+| LC Duplex
+| --
+
+| 40GBASE-CR4
+| QSFP+
+| Twinax 1-7m
+| N/A
+| DAC
+| 4x 10GBASE-CR
+
+|===
+
+=== 50G (50GBASE) -- IEEE 802.3cd
+
+[cols="3,2,3,2,2,3",options="header"]
+|===
+| Standard | Form Factor | Fiber / Distance | Wavelength | Connector | Breakout Options
+
+| 50GBASE-SR
+| SFP56
+| MMF: OM4 100m
+| 850nm
+| LC Duplex
+| --
+
+| 50GBASE-FR
+| SFP56
+| SMF 2km
+| 1310nm
+| LC Duplex
+| --
+
+| 50GBASE-LR
+| SFP56
+| SMF 10km
+| 1310nm
+| LC Duplex
+| --
+
+| 50GBASE-CR
+| SFP56
+| Twinax 1-3m
+| N/A
+| DAC
+| --
+
+|===
+
+=== 100G (100GBASE) -- IEEE 802.3bm / 802.3bs / 802.3cu
+
+[cols="3,2,3,2,2,3",options="header"]
+|===
+| Standard | Form Factor | Fiber / Distance | Wavelength | Connector | Breakout Options
+
+| 100GBASE-SR4
+| QSFP28
+| MMF: OM3 70m / OM4 100m
+| 850nm
+| MPO-12
+| 4x 25GBASE-SR via MPO-12 to 4x LC Duplex fanout
+
+| 100GBASE-DR
+| QSFP28
+| SMF 500m (1 lane PAM4)
+| 1310nm
+| LC Duplex
+| --
+
+| 100GBASE-PSM4
+| QSFP28
+| SMF 500m (4 parallel lanes)
+| 1310nm
+| MPO-12 APC
+| 4x 25GBASE-LR via MPO-12 to 4x LC Duplex fanout
+
+| 100GBASE-CWDM4
+| QSFP28
+| SMF 2km (4 CWDM lambda)
+| 1271-1331nm
+| LC Duplex
+| --
+
+| 100GBASE-FR
+| QSFP28
+| SMF 2km (1 lane PAM4)
+| 1310nm
+| LC Duplex
+| --
+
+| 100GBASE-LR4
+| QSFP28
+| SMF 10km (4 LWDM lambda)
+| 1295.56/1300.05/1304.58/1309.14nm (LAN-WDM)
+| LC Duplex
+| --
+
+| 100GBASE-ER4
+| QSFP28
+| SMF 40km
+| 1310nm
+| LC Duplex
+| --
+
+| 100GBASE-ZR
+| QSFP28
+| SMF 80km+
+| 1550nm
+| LC Duplex
+| --
+
+| 100GBASE-CR4
+| QSFP28
+| Twinax 1-7m
+| N/A
+| DAC
+| 4x 25GBASE-CR
+
+|===
+
+=== 200G (200GBASE) -- IEEE 802.3bs / 802.3cd
+
+[cols="3,2,3,2,2,3",options="header"]
+|===
+| Standard | Form Factor | Fiber / Distance | Wavelength | Connector | Breakout Options
+
+| 200GBASE-SR4
+| QSFP56
+| MMF: OM3 70m / OM4 100m
+| 850nm
+| MPO-12
+| 4x 50GBASE-SR via MPO-12 to 4x LC Duplex fanout
+
+| 200GBASE-DR4
+| QSFP56
+| SMF 500m (4 parallel lanes)
+| 1310nm
+| MPO-12 APC
+| 4x 50GBASE-DR via MPO-12 to 4x LC Duplex fanout
+
+| 200GBASE-FR4
+| QSFP56
+| SMF 2km (4 CWDM lambda)
+| 1271-1331nm
+| LC Duplex
+| 4x 50GBASE-FR via CWDM demux
+
+| 200GBASE-LR4
+| QSFP56 / QSFP-DD
+| SMF 10km (4 LWDM lambda)
+| 1295-1310nm
+| LC Duplex
+| --
+
+| 200GBASE-ER4
+| QSFP-DD
+| SMF 40km
+| 1310nm
+| LC Duplex
+| --
+
+| 200GBASE-CR4
+| QSFP56
+| Twinax 1-3m
+| N/A
+| DAC
+| 4x 50GBASE-CR
+
+|===
+
+=== 400G (400GBASE) -- IEEE 802.3bs / 802.3ck
+
+[cols="3,2,3,2,2,3",options="header"]
+|===
+| Standard | Form Factor | Fiber / Distance | Wavelength | Connector | Breakout Options
+
+| 400GBASE-SR8
+| QSFP-DD / OSFP
+| MMF: OM4 100m
+| 850nm
+| MPO-16
+| 2x 200GBASE-SR4 (MPO-16 to 2x MPO-12) +
+or 8x 50GBASE-SR (MPO-16 to 8x LC Duplex)
+
+| 400GBASE-SR4
+| OSFP
+| MMF: OM4 100m
+| 850nm
+| MPO-12
+| 4x 100GBASE-SR4 or 2x 200GBASE-SR4
+
+| 400GBASE-DR4
+| QSFP-DD / OSFP
+| SMF 500m (4 parallel lanes)
+| 1310nm
+| MPO-12 APC
+| 4x 100GBASE-DR via MPO-12 to 4x LC Duplex fanout
+
+| 400GBASE-FR4
+| QSFP-DD / OSFP / CFP8
+| SMF 2km (4 CWDM lambda)
+| 1271-1331nm
+| LC Duplex
+| 4x 100GBASE-FR via CWDM demux
+
+| 400GBASE-FR8
+| QSFP-DD / OSFP
+| SMF 2km (8 CWDM lambda)
+| 8 lambda
+| LC Duplex
+| --
+
+| 400GBASE-LR4
+| QSFP-DD / OSFP
+| SMF 10km (4 LWDM lambda)
+| 1295-1310nm
+| LC Duplex
+| 4x 100GBASE-LR via LWDM demux
+
+| 400GBASE-LR8
+| QSFP-DD / OSFP
+| SMF 10km (8 LWDM lambda)
+| 8 lambda
+| LC Duplex
+| --
+
+| 400GBASE-ER4
+| QSFP-DD / OSFP
+| SMF 40km
+| 1310nm
+| LC Duplex
+| --
+
+| 400GBASE-ZR
+| QSFP-DD / OSFP
+| (Not an IEEE PMD; see Coherent ZR section)
+| C-band DWDM tunable
+| LC Duplex
+| --
+
+| 400GBASE-CR8
+| QSFP-DD
+| Twinax 1-7m
+| N/A
+| DAC
+| 4x 100GBASE-CR4 or 8x 50GBASE-CR
+
+|===
+
+=== 800G (800GBASE) -- IEEE 802.3df (approved Feb 2024)
+
+[cols="3,2,3,2,2,3",options="header"]
+|===
+| Standard | Form Factor | Fiber / Distance | Wavelength | Connector | Breakout Options
+
+| 800GBASE-SR8
+| QSFP-DD800 / OSFP-XD
+| MMF: OM4 100m
+| 850nm
+| MPO-16
+| 2x 400GBASE-SR4 (MPO-16 to 2x MPO-12) +
+or 8x 100GBASE-SR4 (MPO-16 to 8x LC Duplex)
+
+| 800GBASE-DR8
+| QSFP-DD800 / OSFP-XD
+| SMF 500m (8 parallel lanes)
+| 1310nm
+| MPO-16 APC
+| 2x 400GBASE-DR4 (MPO-16 to 2x MPO-12) +
+or 8x 100GBASE-DR (MPO-16 to 8x LC Duplex)
+
+| 800GBASE-FR8
+| QSFP-DD800 / OSFP-XD
+| SMF 2km (8 CWDM lambda)
+| 8 lambda
+| LC Duplex
+| 2x 400GBASE-FR4 via CWDM demux
+
+| 800GBASE-LR8
+| QSFP-DD800 / OSFP-XD
+| SMF 10km (8 LWDM lambda)
+| 8 lambda
+| LC Duplex
+| 2x 400GBASE-LR4 via LWDM demux
+
+| 800GBASE-ER8
+| QSFP-DD800 / OSFP-XD
+| SMF 40km
+| 1310nm
+| LC Duplex
+| --
+
+| 800GBASE-CR8
+| QSFP-DD800
+| Twinax 1-3m
+| N/A
+| DAC
+| 2x 400GBASE-CR8
+
+|===
+
+=== 1.6T (1600GBASE) -- IEEE 802.3dj (target July 2026)
+
+Status: Under development. Specifications are subject to change.
+
+[cols="3,2,3,2,2,3",options="header"]
+|===
+| Standard | Form Factor | Fiber / Distance | Wavelength | Connector | Breakout Options
+
+| 1600GBASE-SR16
+| QSFP-DD1600 / TBD
+| MMF: OM5 TBD
+| 850-950nm
+| MPO-16/24
+| 2x 800GBASE-SR8
+
+| 1600GBASE-DR16
+| QSFP-DD1600 / TBD
+| SMF 500m (parallel)
+| 1310nm
+| MPO-16
+| 2x 800GBASE-DR8
+
+| 1600GBASE-FR16
+| QSFP-DD1600 / TBD
+| SMF 2km (CWDM/LWDM)
+| Multiple
+| LC Duplex
+| 2x 800GBASE-FR8
+
+| 1600GBASE-LR16
+| QSFP-DD1600 / TBD
+| SMF 10km (LWDM)
+| Multiple
+| LC Duplex
+| 2x 800GBASE-LR8
+
+|===
+
+== Breakout Reference
+
+Breakout cables allow a single high-speed port to connect to multiple lower-speed ports.
+Passive fanout cables split parallel fiber physically. WDM demux modules split wavelengths optically.
+Active breakout cables include electronics for lane retiming.
+
+[cols="3,3,3,3",options="header"]
+|===
+| Source Port | Target Port(s) | Cable / Method | Notes
+
+| 800GBASE-DR8
+| 2x 400GBASE-DR4
+| MPO-16 to 2x MPO-12 APC passive fanout
+| 8 parallel SMF -> split to two 4-lane groups
+
+| 800GBASE-DR8
+| 8x 100GBASE-DR
+| MPO-16 to 8x LC Duplex passive fanout
+| 8 parallel SMF -> split to 8 individual fibers
+
+| 800GBASE-FR8
+| 2x 400GBASE-FR4
+| CWDM demux module
+| 8 wavelengths -> two 4-lambda groups
+
+| 800GBASE-LR8
+| 2x 400GBASE-LR4
+| LWDM demux module
+| 8 wavelengths -> two 4-lambda groups
+
+| 800G QSFP-DD800
+| 2x 400G QSFP-DD
+| Active breakout DAC/AOC
+| Electronic lane retiming; 1-3m DAC or 10-30m AOC
+
+| 400GBASE-DR4
+| 4x 100GBASE-DR
+| MPO-12 APC to 4x LC Duplex passive fanout
+| 4 parallel SMF -> 4 individual fiber pairs
+
+| 400GBASE-FR4
+| 4x 100GBASE-FR
+| CWDM demux module
+| 4 CWDM wavelengths -> 4 individual ports
+
+| 400GBASE-LR4
+| 4x 100GBASE-LR
+| LWDM demux module
+| 4 LWDM wavelengths -> 4 individual ports
+
+| 400GBASE-SR8
+| 2x 200GBASE-SR4
+| MPO-16 to 2x MPO-12 passive fanout
+| 8-lane MMF -> two 4-lane groups
+
+| 400GBASE-SR8
+| 8x 50GBASE-SR
+| MPO-16 to 8x LC Duplex passive fanout
+| 8-lane MMF -> 8 individual LC Duplex pairs
+
+| 400G QSFP-DD (DAC)
+| 4x 100G QSFP28
+| QSFP-DD to 4x QSFP28 active breakout DAC/AOC
+| 2 electrical lanes per QSFP28 target
+
+| 400G QSFP-DD (DAC)
+| 8x 50G SFP56
+| QSFP-DD to 8x SFP56 active breakout DAC/AOC
+| 1 electrical lane per SFP56 target
+
+| 200GBASE-DR4
+| 4x 50GBASE-DR
+| MPO-12 APC to 4x LC Duplex passive fanout
+| 4 parallel SMF -> 4 individual fiber pairs
+
+| 200GBASE-SR4
+| 4x 50GBASE-SR
+| MPO-12 to 4x LC Duplex passive fanout
+| 4-lane MMF -> 4 individual LC Duplex pairs
+
+| 100GBASE-SR4
+| 4x 25GBASE-SR
+| MPO-12 to 4x LC Duplex passive fanout
+| 4-lane MMF -> 4 individual LC Duplex pairs
+
+| 100GBASE-PSM4
+| 4x 25GBASE-LR
+| MPO-12 APC to 4x LC Duplex passive fanout
+| 4 parallel SMF -> 4 individual fiber pairs
+
+| 40GBASE-SR4
+| 4x 10GBASE-SR
+| MPO-12 to 4x LC Duplex passive fanout
+| 4-lane MMF -> 4 individual LC Duplex pairs
+
+|===
+
+== Fiber Types
+
+=== Multimode Fiber (MMF)
+
+[cols="1,2,2,2,2,2,2",options="header"]
+|===
+| Type | Core | BW @ 850nm | Max @ 10G SR | Max @ 25G SR | Max @ 100G SR4 | Max @ 400G SR8
+
+| OM1
+| 62.5 um
+| 200 MHz x km
+| 33m
+| --
+| --
+| --
+
+| OM2
+| 50 um
+| 500 MHz x km
+| 82m
+| --
+| --
+| --
+
+| OM3
+| 50 um
+| 2000 MHz x km
+| 300m
+| 70m
+| 70m
+| --
+
+| OM4
+| 50 um
+| 4700 MHz x km
+| 400m
+| 100m
+| 100m
+| 100m
+
+| OM5
+| 50 um
+| 4700 MHz x km
+| 400m
+| 100m
+| 100m
+| 100m
+
+|===
+
+OM5 supports Wideband MMF (WBMMF) using wavelengths 850-950nm for SWDM4 (Short-range WDM).
+OM3/OM4/OM5 all use 50 um core; OM5 has same geometry as OM4 and is backward compatible.
+
+=== Single-Mode Fiber (SMF)
+
+Standard G.652D fiber is used for nearly all SMF transceiver applications (DR, FR, LR, ER, ZR).
+
+[cols="2,2,2,4",options="header"]
+|===
+| Type | Core | Attenuation @ 1550nm | Typical Use
+
+| G.652 (OS2)
+| 8-9 um
+| 0.2 dB/km
+| Standard SMF; DR/FR/LR/ER/ZR applications
+
+| G.654
+| 8-9 um
+| 0.15 dB/km
+| Ultra-low loss; long-haul ZR+/coherent DWDM
+
+| G.655
+| 8-9 um
+| 0.2 dB/km
+| Non-zero dispersion-shifted; legacy telecom
+
+|===
+
+== Connectors
+
+[cols="2,1,3,4",options="header"]
+|===
+| Connector | Fibers | Common Applications | Notes
+
+| LC Duplex
+| 2 (Tx+Rx)
+| SFP+, SFP28, SFP56; QSFP28/56/DD LR/ER/ZR; CFP family
+| Most common; low insertion loss (0.3 dB typical)
+
+| SC Duplex
+| 2 (Tx+Rx)
+| Legacy telecom equipment
+| Larger than LC; mostly legacy deployments
+
+| MPO-8
+| 8
+| Legacy 40G parallel
+| 4 Tx + 4 Rx; superseded by MPO-12
+
+| MPO-12
+| 12
+| 40G-SR4, 100G-SR4, 100G-DR (PSM4), 200G-SR4, 400G-DR4
+| SR4/DR4: 4 Tx + 4 Rx + 4 unused; PSM4: 4 Tx + 4 Rx + 4 unused
+
+| MPO-16
+| 16
+| 400G-SR8, 800G-SR8, 800G-DR8
+| 8 Tx + 8 Rx; full lane utilization
+
+| MPO-24
+| 24
+| Emerging 1.6T applications
+| Future high-density parallel fiber
+
+|===
+
+MPO connectors used with SMF parallel applications (DR variants) require APC (angled physical contact)
+polish to reduce back-reflection. MMF SR applications use UPC (ultra physical contact) polish.
+MTP is a registered trademark for enhanced MPO connectors (compatible with standard MPO).
+
+== Coherent optics (industry)
+
+These are commonly deployed in Ethernet networks but are specified by industry agreements (e.g., OIF / MSAs),
+not IEEE 802.3 PMD names like `400GBASE-*`.
+
+[cols="3,2,3,2,2",options="header"]
+|===
+| Name | Typical Reach | Fiber Type | Wavelength | Connector
+
+| 400ZR (OIF)
+| ~80-120 km (implementation / fiber / amplification dependent)
+| SMF
+| C-band DWDM tunable
+| LC Duplex
+
+| 400ZR+ / OpenZR+ (MSA)
+| Vendor-specific (often >120 km)
+| SMF
+| C-band DWDM tunable
+| LC Duplex
+
+|===
+
+== References
+
+=== IEEE 802.3 PHY overviews (free)
+
+- `https://www.tiafotc.org/ieee-802-3-ethernet-standards-update/singlemode-standards-update/100gbase-fr1/` (100GBASE-FR1: 1310 nm, 2 km, LC)
+- `https://www.tiafotc.org/ieee-802-3-ethernet-standards-update/singlemode-standards-update/100gbase-lr4/` (100GBASE-LR4 LAN-WDM wavelengths, 10 km)
+- `https://www.tiafotc.org/ieee-802-3-ethernet-standards-update/singlemode-standards-update/50gbase-fr/` (50GBASE-FR: 1310 nm, 2 km, LC)
+- `https://www.tiafotc.org/ieee-802-3-ethernet-standards-update/singlemode-standards-update/50gbase-lr/` (50GBASE-LR: 1310 nm, 10 km, LC)
+- `https://www.tiafotc.org/ieee-802-3-ethernet-standards-update/singlemode-standards-update/50gbase-er/` (50GBASE-ER: 1310 nm, 40 km, LC)
+- `https://www.tiafotc.org/ieee-802-3-ethernet-standards-update/singlemode-standards-update/10gbase-er/` (10GBASE-ER: 1550 nm, 40 km)
+
+=== Fiber standards
+
+- `https://www.itu.int/rec/dologin_pub.asp?id=T-REC-G.652-202408-I%21%21PDF-E&lang=e&type=items` (ITU-T G.652: common SMF baseline)
+
+=== Coherent ZR (industry agreements)
+
+- `https://www.oiforum.com/wp-content/uploads/OIF-400ZR-03.0.1.pdf` (OIF 400ZR Implementation Agreement)
+
+=== Connectors / APC vs UPC
+
+- `https://docs.nvidia.com/networking/display/cableovpub/optical%2Bconnectors` (MPO APC/UPC guidance for high-speed optics)

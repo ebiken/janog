@@ -1,0 +1,9 @@
+extends: default
+base:
+  font_size: 10.5
+heading:
+  font_size: 14
+code:
+  font_size: 9
+footer:
+  font_size: 9
