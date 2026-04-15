@@ -39,7 +39,7 @@ Uses fixed pipeline with focus on throughput and low latency.
 | 64
 | 64x100G
 | 4x25G, 2x50G
-|
+| 16nm
 | 2016
 | Hyperscale DC spine
 
@@ -72,7 +72,7 @@ Uses fixed pipeline with focus on throughput and low latency.
 | 64
 | 64x800G
 | 2x400G, 4x200G
-|
+| 5nm
 | 2022
 | AI/ML workloads; Cognitive Routing
 
@@ -83,6 +83,7 @@ Uses fixed pipeline with focus on throughput and low latency.
 | 64
 | 64x1.6T
 | 2x800G, 4x400G, 8x200G
+| 3nm
 | 2025
 | AI-scale fabric; CPO support
 
@@ -112,23 +113,23 @@ Positioned for enterprise, service provider, and programmable DC deployments.
 | BCM56880
 | 12.8 Tbps
 | 50G PAM4
-| 64
-| 64x200G (up to 12.8Tb/s)
-| 2x100G, 4x50G
+| 32
+| 32x400G
+| 2x200G, 4x100G
 | 7nm
 | 2019
 | Compiler-programmable
 
 | Trident 5
+| BCM78800
+| 16 Tbps
+| 100G PAM4
 |
 |
 |
-|
-|
-|
-|
-|
-|
+| 5nm
+| 2023
+| AI-aware; NetGNT neural network engine; 800GbE support
 
 |===
 
@@ -144,7 +145,7 @@ Used in service provider edge/core routers and carrier Ethernet platforms.
 | Jericho 2
 | BCM88690
 | 10 Tbps
-| 25G NRZ
+| 50G PAM4
 |
 |
 |
@@ -159,7 +160,7 @@ Used in service provider edge/core routers and carrier Ethernet platforms.
 |
 |
 |
-|
+| 16nm
 | 2019
 | Carrier routing / switch-router
 
@@ -173,6 +174,83 @@ Used in service provider edge/core routers and carrier Ethernet platforms.
 | 7nm
 | 2020
 | High-performance routing silicon
+
+|===
+
+=== Qumran Family (StrataDNX - Metro / Edge Routing)
+
+Compact routing NPUs for metro, aggregation, and edge deployments.
+Positioned below Jericho in bandwidth, optimized for 5G, carrier Ethernet, and edge routing.
+
+[cols="2,2,1,2,1,2,4,1,1,3",options="header"]
+|===
+| Generation | Model | Capacity | SerDes | Physical Ports | Max Speed Config | Breakout Support | Node | Year | Notes
+
+| Qumran-AX
+| BCM88470
+| 300 Gbps
+| 25G NRZ
+|
+| 4x100G
+|
+|
+| 2016
+| Metro/aggregation edge
+
+| Qumran-MX
+| BCM88370
+| 800 Gbps
+| 25G NRZ
+|
+|
+|
+|
+|
+| Metro/aggregation
+
+| Qumran-2A
+| BCM88480
+| 800 Gbps
+| 25G NRZ/PAM4
+|
+|
+|
+|
+| 2018
+| Aggregation/edge
+
+| Qumran-2C
+| BCM88820
+| 2.4 Tbps
+| 50G PAM4
+|
+| 24x100G or 6x400G
+| 4x100G per 400G port
+|
+| 2020
+| Core aggregation; 5G transport
+
+| Qumran-3A
+| BCM88490
+| 2.4 Tbps
+| 50G PAM4
+|
+|
+|
+|
+| 2021
+| Core/aggregation; 400G support
+
+| Qumran-3D
+| BCM88870
+| 25.6 Tbps
+| 100G PAM4
+| 32
+| 32x800G
+| 4x200G, 8x100G
+| 5nm
+| 2023
+| Industry first 5nm router; metro/DC edge
 
 |===
 
@@ -202,11 +280,11 @@ This section lists ASIC generations (not switch system SKUs).
 | Spectrum-2
 |
 | 6.4 Tbps
+| 50G PAM4
 |
 |
 |
-|
-|
+| 16nm
 |
 | ASIC product brief is the source of truth
 
@@ -255,3 +333,15 @@ This section lists ASIC generations (not switch system SKUs).
 * NVIDIA Spectrum-3 ASIC product brief: https://network.nvidia.com/files/doc-2020/pb-spectrum-3.pdf
 * NVIDIA Spectrum-4 announcement: https://nvidianews.nvidia.com/news/nvidia-announces-spectrum-high-performance-data-center-networking-infrastructure-platform
 * NVIDIA Spectrum-4 ASIC datasheet (OPNs, port configs): https://hypertecsp.com/wp-content/uploads/ethernet-switches-spectrum-4-asic-datasheet-co-branded-1.pdf
+* Broadcom Qumran-AX (BCM88470) product page: https://www.broadcom.com/products/ethernet-connectivity/switching/stratadnx/bcm88470
+* Broadcom Qumran-MX (BCM88370) product page: https://www.broadcom.com/products/ethernet-connectivity/switching/stratadnx/bcm88370
+* Broadcom Qumran-2A (BCM88480) product page: https://www.broadcom.com/products/ethernet-connectivity/switching/stratadnx/bcm88480
+* Broadcom Qumran-2C (BCM88820) product page: https://www.broadcom.com/products/ethernet-connectivity/switching/stratadnx/bcm88820
+* Broadcom Qumran-3A (BCM88490) product page: https://www.broadcom.com/products/ethernet-connectivity/switching/stratadnx/bcm88490
+* Broadcom Qumran-3D 5nm router announcement: https://investors.broadcom.com/news-releases/news-release-details/broadcom-ships-industrys-first-5nm-single-chip-256tbs-router
+* Broadcom Tomahawk II (TH2) GlobeNewswire announcement (confirms 16nm): https://www.globenewswire.com/news-release/2016/10/11/878592/0/en/Broadcom-First-to-Deliver-64-Ports-of-100GE-with-Tomahawk-II-6-4Tbps-Ethernet-Switch.html
+* Broadcom Tomahawk 5 (TH5) production volume announcement (confirms 5nm TSMC N5): https://www.globenewswire.com/news-release/2023/03/15/2627750/19933/en/Broadcom-Now-Shipping-World-s-First-51-2-Tbps-Switch-in-Production-Volume.html
+* Broadcom Tomahawk 6 (TH6) BCM78910 product page (confirms 3nm TSMC N3): https://www.broadcom.com/products/ethernet-connectivity/switching/strataxgs/bcm78910-series
+* Broadcom Trident 5 (BCM78800) product page: https://www.broadcom.com/products/ethernet-connectivity/switching/strataxgs/bcm78800
+* Broadcom Trident 5-X12 announcement (16Tbps, 5nm, NetGNT): https://investors.broadcom.com/news-releases/news-release-details/broadcom-introduces-industrys-first-switch-chip-neural-network
+* Broadcom Qumran-3D (BCM88870) product page: https://www.broadcom.com/products/ethernet-connectivity/switching/stratadnx/bcm88870
