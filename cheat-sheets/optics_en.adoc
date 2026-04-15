@@ -82,7 +82,7 @@ DAC = Direct-Attach Copper, AOC = Active Optical Cable, APC = Angled Physical Co
 | 8
 | 50G
 | PAM4
-| Octal SFP; larger than QSFP-DD; higher power headroom (up to 12W+)
+| Octal SFP; larger than QSFP-DD; higher power headroom (up to 16W)
 
 | OSFP-XD
 | 800G
@@ -96,7 +96,7 @@ DAC = Direct-Attach Copper, AOC = Active Optical Cable, APC = Angled Physical Co
 | multi
 | —
 | NRZ
-| Large form factor; telecom/line-side use; 82x13.6x144.8mm
+| Large form factor; telecom/line-side use; 144.75×82×13.46mm (L×W×H)
 
 | CFP2
 | 200G
@@ -219,7 +219,7 @@ DAC = Direct-Attach Copper, AOC = Active Optical Cable, APC = Angled Physical Co
 | SMF 80km+
 | 1550nm
 | LC Duplex
-| --
+| (industry/MSA; not an IEEE PMD)
 
 | 10GBASE-CR
 | SFP+
@@ -310,7 +310,7 @@ DAC = Direct-Attach Copper, AOC = Active Optical Cable, APC = Angled Physical Co
 
 | 50GBASE-SR
 | SFP56
-| MMF: OM4 100m
+| MMF: OM3 70m / OM4 100m
 | 850nm
 | LC Duplex
 | --
@@ -444,7 +444,7 @@ DAC = Direct-Attach Copper, AOC = Active Optical Cable, APC = Angled Physical Co
 | --
 
 | 200GBASE-ER4
-| QSFP-DD
+| QSFP56
 | SMF 40km
 | 1310nm
 | LC Duplex
@@ -474,11 +474,11 @@ DAC = Direct-Attach Copper, AOC = Active Optical Cable, APC = Angled Physical Co
 or 8x 50GBASE-SR (MPO-16 to 8x LC Duplex)
 
 | 400GBASE-SR4
-| OSFP
+| QSFP-DD / OSFP
 | MMF: OM4 100m
 | 850nm
 | MPO-12
-| 4x 100GBASE-SR4 or 2x 200GBASE-SR4
+| --
 
 | 400GBASE-DR4
 | QSFP-DD / OSFP
@@ -546,7 +546,7 @@ or 8x 50GBASE-SR (MPO-16 to 8x LC Duplex)
 
 | 800GBASE-SR8
 | QSFP-DD800 / OSFP-XD
-| MMF: OM4 100m
+| MMF: OM4/OM5 100m
 | 850nm
 | MPO-16
 | 2x 400GBASE-SR4 (MPO-16 to 2x MPO-12) +
@@ -870,14 +870,27 @@ not IEEE 802.3 PMD names like `400GBASE-*`.
 
 == References
 
+=== IEEE standards
+
+- `https://standards.ieee.org/ieee/802.3df/11107/` (IEEE 802.3df-2024: 800 Gb/s Ethernet, approved Feb 16, 2024)
+
 === IEEE 802.3 PHY overviews (free)
 
 - `https://www.tiafotc.org/ieee-802-3-ethernet-standards-update/singlemode-standards-update/100gbase-fr1/` (100GBASE-FR1: 1310 nm, 2 km, LC)
 - `https://www.tiafotc.org/ieee-802-3-ethernet-standards-update/singlemode-standards-update/100gbase-lr4/` (100GBASE-LR4 LAN-WDM wavelengths, 10 km)
+- `https://www.tiafotc.org/ieee-802-3-ethernet-standards-update/singlemode-standards-update/200gbase-er4/` (200GBASE-ER4: QSFP56 form factor, 40 km)
+- `https://www.tiafotc.org/ieee-802-3-ethernet-standards-update/singlemode-standards-update/400gbase-fr8/` (400GBASE-FR8: SMF 2 km, 8 CWDM lambda)
+- `https://www.tiafotc.org/ieee-802-3-ethernet-standards-update/singlemode-standards-update/400gbase-lr8/` (400GBASE-LR8: SMF 10 km, 8 LWDM lambda)
 - `https://www.tiafotc.org/ieee-802-3-ethernet-standards-update/singlemode-standards-update/50gbase-fr/` (50GBASE-FR: 1310 nm, 2 km, LC)
 - `https://www.tiafotc.org/ieee-802-3-ethernet-standards-update/singlemode-standards-update/50gbase-lr/` (50GBASE-LR: 1310 nm, 10 km, LC)
 - `https://www.tiafotc.org/ieee-802-3-ethernet-standards-update/singlemode-standards-update/50gbase-er/` (50GBASE-ER: 1310 nm, 40 km, LC)
 - `https://www.tiafotc.org/ieee-802-3-ethernet-standards-update/singlemode-standards-update/10gbase-er/` (10GBASE-ER: 1550 nm, 40 km)
+
+=== IEEE 802.3 PHY overviews -- multimode fiber (free)
+
+- `https://www.tiafotc.org/ieee-802-3-ethernet-standards-update/multimode-standards-update/50gbase-sr/` (50GBASE-SR: OM3 70 m / OM4 100 m)
+- `https://www.tiafotc.org/ieee-802-3-ethernet-standards-update/multimode-standards-update/200gbase-sr4/` (200GBASE-SR4: OM3 70 m / OM4 100 m)
+- `https://www.tiafotc.org/ieee-802-3-ethernet-standards-update/multimode-standards-update/800gbase-sr8/` (800GBASE-SR8: OM4/OM5 100 m)
 
 === Fiber standards
 
@@ -886,6 +899,11 @@ not IEEE 802.3 PMD names like `400GBASE-*`.
 === Coherent ZR (industry agreements)
 
 - `https://www.oiforum.com/wp-content/uploads/OIF-400ZR-03.0.1.pdf` (OIF 400ZR Implementation Agreement)
+
+=== Form factors / power specs
+
+- `https://en.wikipedia.org/wiki/C_form-factor_pluggable` (CFP dimensions: 144.75×82×13.46mm L×W×H)
+- `https://www.fibermall.com/questions/max-power-consumption-of-400g-osfp-qsfp-dd.htm` (OSFP max 16W vs QSFP-DD max 12W)
 
 === Connectors / APC vs UPC
 
